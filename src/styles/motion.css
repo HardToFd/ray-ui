@@ -1,0 +1,80 @@
+.ray-spotlight-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 24px;
+  color: var(--ray-text);
+  background: var(--ray-surface);
+  border: 1px solid var(--ray-border);
+  border-radius: var(--ray-radius, 8px);
+}
+
+.ray-spotlight-card::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    300px circle at var(--ray-spotlight-x, 50%) var(--ray-spotlight-y, 50%),
+    color-mix(in srgb, var(--ray-accent) 14%, transparent),
+    transparent 75%
+  );
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+  content: '';
+}
+
+.ray-spotlight-card:hover::before,
+.ray-spotlight-card:focus-within::before {
+  opacity: 1;
+}
+
+.ray-reveal {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 540ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 540ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--ray-reveal-delay, 0ms);
+}
+
+.ray-reveal[data-visible='false'] {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.ray-reveal[data-visible='true'],
+.ray-reveal:focus-within {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ray-reveal:focus-within {
+  transition: none;
+}
+
+.ray-animated-number {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ray-spotlight-card::before {
+    transition: none;
+  }
+
+  .ray-reveal,
+  .ray-reveal[data-visible='false'] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+@media print {
+  .ray-reveal,
+  .ray-reveal[data-visible='false'] {
+    opacity: 1;
+    transform: none;
+  }
+}

@@ -1,0 +1,303 @@
+.ray-data-table {
+  overflow: hidden;
+  width: 100%;
+  color: var(--ray-text);
+  background: var(--ray-surface);
+  border: 1px solid var(--ray-border);
+  border-radius: var(--ray-radius, 8px);
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.ray-data-table-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  border-bottom: 1px solid var(--ray-border);
+}
+
+.ray-data-table-search-label,
+.ray-data-table-caption {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.ray-data-table-search-wrap {
+  position: relative;
+  width: min(100%, 280px);
+  min-width: 0;
+}
+
+.ray-data-table-search-icon {
+  position: absolute;
+  top: 50%;
+  left: 11px;
+  width: 16px;
+  height: 16px;
+  color: var(--ray-muted);
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.ray-data-table-search {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 36px;
+  padding: 7px 10px 7px 34px;
+  border: 1px solid var(--ray-border);
+  border-radius: 6px;
+  outline: none;
+  color: var(--ray-text);
+  background: var(--ray-bg);
+  font: inherit;
+}
+
+.ray-data-table-search::placeholder {
+  color: var(--ray-muted);
+}
+
+.ray-data-table-search:focus-visible,
+.ray-data-table-scroll:focus-visible,
+.ray-data-table-sort:focus-visible,
+.ray-data-table-page-button:focus-visible,
+.ray-data-table-clear:focus-visible,
+.ray-filter-bar-option:focus-visible {
+  outline: 2px solid var(--ray-ring);
+  outline-offset: 3px;
+}
+
+.ray-data-table-scroll:focus-visible {
+  outline-offset: -2px;
+}
+
+.ray-data-table-result-count,
+.ray-data-table-range {
+  color: var(--ray-muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.ray-data-table-scroll {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+
+.ray-data-table-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  line-height: 1.5;
+}
+
+.ray-data-table-table th {
+  padding: 12px 16px;
+  color: var(--ray-muted);
+  background: var(--ray-surface-raised);
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.ray-data-table-table td {
+  padding: 15px 16px;
+  border-top: 1px solid var(--ray-border);
+  white-space: nowrap;
+}
+
+.ray-data-table-table tbody tr:hover {
+  background: var(--ray-surface-raised);
+}
+
+.ray-data-table-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 28px;
+  margin: -4px 0;
+  padding: 4px 0;
+  border: 0;
+  border-radius: 2px;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ray-data-table-sort:hover,
+.ray-data-table-table th[aria-sort='ascending'],
+.ray-data-table-table th[aria-sort='descending'] {
+  color: var(--ray-text);
+}
+
+.ray-data-table-sort-icon {
+  width: 10px;
+  color: var(--ray-muted);
+  font-size: 13px;
+}
+
+.ray-data-table-table .ray-data-table-empty {
+  padding: 48px 20px;
+  color: var(--ray-muted);
+  text-align: center;
+  white-space: normal;
+}
+
+.ray-data-table-empty > span {
+  display: block;
+}
+
+.ray-data-table-empty-title {
+  margin-bottom: 6px;
+  color: var(--ray-text);
+  font-weight: 500;
+}
+
+.ray-data-table-clear {
+  margin-top: 16px;
+  padding: 6px 12px;
+  border: 1px solid var(--ray-border);
+  border-radius: 6px;
+  color: var(--ray-text);
+  background: var(--ray-surface);
+  font: inherit;
+  cursor: pointer;
+}
+
+.ray-data-table-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--ray-border);
+}
+
+.ray-data-table-pagination {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 8px;
+}
+
+.ray-data-table-page-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid var(--ray-border);
+  border-radius: 6px;
+  color: var(--ray-text);
+  background: var(--ray-surface);
+  font: inherit;
+  cursor: pointer;
+}
+
+.ray-data-table-page-button:hover:not(:disabled),
+.ray-data-table-clear:hover {
+  background: var(--ray-surface-raised);
+}
+
+.ray-data-table-page-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.ray-data-table-page-label {
+  min-width: 36px;
+  color: var(--ray-muted);
+  font-size: 11px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.ray-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+}
+
+.ray-filter-bar-option {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 34px;
+  padding: 6px 11px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: var(--ray-muted);
+  background: transparent;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+}
+
+.ray-filter-bar-option:hover {
+  color: var(--ray-text);
+  background: var(--ray-surface-raised);
+}
+
+.ray-filter-bar-option[aria-pressed='true'] {
+  border-color: var(--ray-border);
+  color: var(--ray-text);
+  background: var(--ray-surface);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 4%);
+}
+
+.ray-filter-bar-count {
+  min-width: 17px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--ray-surface-raised);
+  font-size: 10px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.ray-filter-bar-option[aria-pressed='true'] .ray-filter-bar-count {
+  color: var(--ray-accent-contrast);
+  background: var(--ray-accent);
+}
+
+@media (max-width: 480px) {
+  .ray-data-table-toolbar {
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .ray-data-table-result-count {
+    font-size: 10px;
+  }
+
+  .ray-data-table-footer {
+    flex-wrap: wrap;
+    padding: 12px;
+  }
+
+  .ray-data-table-table th,
+  .ray-data-table-table td {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ray-filter-bar-option {
+    transition: none;
+  }
+}

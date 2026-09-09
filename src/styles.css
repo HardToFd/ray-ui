@@ -1,0 +1,36 @@
+@import './styles/primitives.css';
+@import './styles/date-picker.css';
+@import './styles/motion.css';
+@import './styles/business.css';
+
+/* Keep component geometry independent of the consuming app's CSS reset. */
+:where([class^='ray-'], [class*=' ray-']) {
+  box-sizing: border-box;
+}
+
+:root, [data-ray-theme='light'] {
+  --ray-bg: #faf9f6;
+  --ray-surface: #ffffff;
+  --ray-surface-raised: #f4f3ef;
+  --ray-text: #282925;
+  --ray-muted: #77796f;
+  --ray-border: #e5e5de;
+  --ray-accent: #df5a31;
+  --ray-accent-contrast: #ffffff;
+  --ray-ring: #e76b42;
+  --ray-radius: 8px;
+  color-scheme: light;
+}
+
+[data-ray-theme='dark'] {
+  --ray-bg: #191b19;
+  --ray-surface: #222521;
+  --ray-surface-raised: #2c2f2b;
+  --ray-text: #f1f2e9;
+  --ray-muted: #a3a99e;
+  --ray-border: #383d35;
+  --ray-accent: #ec774f;
+  --ray-accent-contrast: #151a13;
+  --ray-ring: #ef956f;
+  color-scheme: dark;
+}
