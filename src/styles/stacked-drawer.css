@@ -1,0 +1,86 @@
+.ray-stacked-drawer__overlay {
+  position: fixed;
+  inset: 0;
+  background: rgb(20 23 20 / 28%);
+  backdrop-filter: blur(4px);
+  animation: ray-fade-in 240ms ease;
+}
+.ray-stacked-drawer__overlay[data-nested='true'] { background: transparent; backdrop-filter: none; }
+.ray-stacked-drawer__overlay[data-state='closed'] { animation: ray-drawer-fade-out 220ms ease; }
+
+.ray-stacked-drawer {
+  position: fixed;
+  right: max(24px, env(safe-area-inset-right));
+  bottom: max(24px, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  width: min(520px, calc(100vw - 48px));
+  height: min(640px, calc(100dvh - 108px));
+  overflow: hidden;
+  color: var(--ray-text);
+  background: var(--ray-surface);
+  border: 1px solid var(--ray-border);
+  border-radius: 24px;
+  box-shadow: 0 24px 80px rgb(0 0 0 / 18%), 0 4px 14px rgb(0 0 0 / 6%);
+  font: inherit;
+  transform-origin: top center;
+  transform: translateY(calc(var(--ray-drawer-depth) * -28px)) scale(calc(1 - var(--ray-drawer-depth) * .045));
+  transition: transform 420ms cubic-bezier(.22, 1, .36, 1);
+}
+.ray-stacked-drawer[data-state='open'] { animation: ray-drawer-in 420ms cubic-bezier(.22, 1, .36, 1); }
+.ray-stacked-drawer[data-state='closed'] { animation: ray-drawer-out 220ms cubic-bezier(.4, 0, 1, 1); }
+.ray-stacked-drawer::after {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: var(--ray-text);
+  opacity: 0;
+  transition: opacity 300ms ease;
+  content: '';
+}
+.ray-stacked-drawer[data-covered='true']::after { opacity: .07; }
+.ray-stacked-drawer__toolbar { display: flex; align-items: center; gap: 10px; min-height: 68px; padding: 12px 18px 4px 28px; flex-shrink: 0; }
+.ray-stacked-drawer__eyebrow { color: var(--ray-muted); font-size: 12px; letter-spacing: 2px; }
+.ray-stacked-drawer__level { margin-left: auto; color: var(--ray-muted); font: 12px ui-monospace, monospace; }
+.ray-stacked-drawer__back, .ray-stacked-drawer__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 8px;
+  color: var(--ray-muted);
+  background: transparent;
+  border: 0;
+  border-radius: 50px;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: color 150ms ease, background-color 150ms ease;
+}
+.ray-stacked-drawer__back { margin-left: -8px; }
+.ray-stacked-drawer__close { width: 44px; }
+.ray-stacked-drawer__back:hover, .ray-stacked-drawer__close:hover { color: var(--ray-text); background: var(--ray-surface-raised); }
+.ray-stacked-drawer__back:focus-visible, .ray-stacked-drawer__close:focus-visible { outline: 2px solid var(--ray-ring); outline-offset: 2px; }
+.ray-stacked-drawer__header { flex-shrink: 0; padding: 10px 32px 24px; border-bottom: 1px solid var(--ray-border); }
+.ray-stacked-drawer__title { margin: 0; font-size: 26px; font-weight: 600; line-height: 1.4; letter-spacing: -.7px; overflow-wrap: anywhere; outline: none; }
+.ray-stacked-drawer__description { margin: 10px 0 0; color: var(--ray-muted); font-size: 13px; line-height: 1.8; overflow-wrap: anywhere; }
+.ray-stacked-drawer__body { flex: 1; min-height: 0; padding: 28px 32px; overflow-y: auto; overscroll-behavior: contain; font-size: 14px; line-height: 1.7; }
+.ray-stacked-drawer__footer { flex-shrink: 0; padding: 20px 32px; border-top: 1px solid var(--ray-border); }
+
+@keyframes ray-drawer-in { from { opacity: 0; transform: translateY(calc(100% + 24px)); } }
+@keyframes ray-drawer-out { to { opacity: 0; transform: translateY(calc(100% + 24px)); } }
+@keyframes ray-drawer-fade-out { to { opacity: 0; } }
+
+@media (max-width: 600px) {
+  .ray-stacked-drawer { right: max(8px, env(safe-area-inset-right)); bottom: max(8px, env(safe-area-inset-bottom)); width: calc(100vw - 16px - env(safe-area-inset-right) - env(safe-area-inset-left)); height: min(640px, calc(100dvh - 88px)); border-radius: 22px; }
+  .ray-stacked-drawer__toolbar { padding-left: 20px; }
+  .ray-stacked-drawer__header { padding: 4px 24px 20px; }
+  .ray-stacked-drawer__title { font-size: 23px; }
+  .ray-stacked-drawer__body { padding: 24px; }
+  .ray-stacked-drawer__footer { padding: 18px 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ray-stacked-drawer, .ray-stacked-drawer__overlay { animation: none !important; transition: none; }
+  .ray-stacked-drawer::after, .ray-stacked-drawer__back, .ray-stacked-drawer__close { transition: none; }
+}

@@ -21,13 +21,25 @@ npm run dev
 
 | 分类 | 组件 |
 | --- | --- |
-| 通用 UI · 10 | Button、Input、DatePicker、Textarea、Switch、Badge、Card、Separator、Dialog、Tabs |
+| 通用 UI · 12 | Button、Input、DatePicker、Textarea、Switch、Badge、Card、StackedCards、Separator、Dialog、StackedDrawer、Tabs |
 | 视觉动效 · 3 | SpotlightCard、Reveal、AnimatedNumber |
 | 业务组件 · 2 | DataTable、FilterBar |
 
 Dialog 和 Tabs 使用 Radix Primitives 提供焦点管理与键盘交互。输入组件支持标签、错误提示、原生表单属性与 ref。动效尊重 `prefers-reduced-motion`；DataTable 提供客户端搜索、排序、分页与空状态，适合小型数据集。
 
 全部组件及 Props / Column / Option 类型由主入口导出。打开工作台的组件详情可查看当前 API；完整声明随包发布。
+
+### 堆叠卡片列表
+
+`StackedCards` 将列表项在页面内纵向错位叠放，每项始终露出标题，点击展开该项并收起其他项，再次点击可收起。接收 `items`（唯一 `id`、`title`、`content`，以及可选的 `icon`、`meta`、`tone`），支持 `value` / `defaultValue` 和 `onValueChange`；`null` 表示全部收起。上下方向键、Home / End 移动标题焦点，Enter / Space 展开；收起内容不接收焦点，内容本身保持挂载。删除展开项后收起全部，重排通过 id 保持选择。支持自适应内容高度、浅色 / 深色主题及减少动态效果。
+
+工作台的 `#component/StackedCards` 提供灵感清单演示，可切换卡片、全部收起和标记完成，修改仅在当前页面有效。
+
+### 堆叠卡片抽屉
+
+`StackedDrawer` 是带圆角、浮动留白的卡片抽屉，在 `children` 中嵌套同名组件即可逐层展开。前层进入时，后层缩小并向上错开，最多露出两层后卡；关闭按钮、遮罩和 Esc 都只关闭当前层，返回后保留上一层的输入与滚动位置。支持受控 / 非受控状态、固定底部操作区、独立正文滚动、浅色 / 深色主题和减少动态效果。焦点限制与恢复使用 Radix Dialog，未加入拖拽手势。
+
+工作台的 `#component/StackedDrawer` 提供三层交互预览、嵌套示例和 API 参考；预览中的修改与确认仅保留在当前页面。
 
 ### 日期选择器
 
