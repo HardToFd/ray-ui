@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { DatePickerDemo } from './DatePickerDemo';
+import { StackedDrawerDemo } from './StackedDrawerDemo';
+import { StackedCardsDemo } from './StackedCardsDemo';
 import {
   ArrowLeft,
   ArrowRight,
@@ -192,6 +194,10 @@ function ComponentPreview({
       );
     case "DatePicker":
       return <DatePickerDemo expanded={expanded} />;
+    case "StackedDrawer":
+      return <StackedDrawerDemo expanded={expanded} />;
+    case "StackedCards":
+      return <StackedCardsDemo expanded={expanded} />;
     case "Input":
       return (
         <div className="preview-field">
