@@ -1,0 +1,17 @@
+.ray-breathing-indicator { --ray-breath-dark: 0; --ray-breath-art: 88px; display: inline-flex; align-items: center; gap: 12px; max-width: 100%; min-width: 0; color: var(--ray-text); vertical-align: middle; }
+[data-ray-theme='dark'] .ray-breathing-indicator { --ray-breath-dark: 1; }
+[data-ray-theme='light'] .ray-breathing-indicator { --ray-breath-dark: 0; }
+.ray-breathing-indicator[data-size='sm'] { --ray-breath-art: 44px; gap: 8px; }
+.ray-breathing-indicator[data-size='lg'] { --ray-breath-art: 144px; gap: 20px; }
+.ray-breathing-indicator__art { display: block; width: var(--ray-breath-art); height: var(--ray-breath-art); flex: 0 0 auto; pointer-events: none; }
+.ray-breathing-indicator__copy { display: flex; flex-direction: column; min-width: 0; gap: 7px; }
+.ray-breathing-indicator__label { font-size: 14px; font-weight: 550; line-height: 1.5; overflow-wrap: anywhere; }
+.ray-breathing-indicator__description { color: var(--ray-muted); font-size: 12px; line-height: 1.7; overflow-wrap: anywhere; }
+.ray-breathing-indicator[data-size='sm'] .ray-breathing-indicator__label { font-size: 12px; }
+.ray-breathing-indicator[data-size='lg'] .ray-breathing-indicator__label { font-size: 20px; letter-spacing: -.02em; }
+.ray-breathing-indicator[data-size='lg'] .ray-breathing-indicator__description { font-size: 13px; }
+.ray-breathing-indicator[data-variant='wave'] { display: inline-grid; gap: 0; width: calc(var(--ray-breath-art) * 2.4); }
+.ray-breathing-indicator[data-variant='wave'] .ray-breathing-indicator__art { width: 100%; height: var(--ray-breath-art); grid-area: 1 / 1; }
+.ray-breathing-indicator[data-variant='wave'] .ray-breathing-indicator__copy { grid-area: 1 / 1; align-self: stretch; justify-content: space-between; align-items: center; text-align: center; padding: 0 4px; }
+.ray-breathing-indicator[data-variant='wave'][data-size='sm'] .ray-breathing-indicator__copy { grid-area: 2 / 1; }
+.ray-breathing-indicator__hidden-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }

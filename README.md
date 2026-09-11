@@ -19,15 +19,35 @@ npm run dev
 
 ## 组件清单
 
+界面约定：可见的下拉选择使用自定义弹层组件（如 Radix Select），统一选项、选中态、焦点态和深浅色主题，不使用浏览器原生 `<select>` 菜单。用于表单提交的隐藏原生控件不受此限制。
+
 | 分类 | 组件 |
 | --- | --- |
-| 通用 UI · 12 | Button、Input、DatePicker、Textarea、Switch、Badge、Card、StackedCards、Separator、Dialog、StackedDrawer、Tabs |
-| 视觉动效 · 3 | SpotlightCard、Reveal、AnimatedNumber |
-| 业务组件 · 2 | DataTable、FilterBar |
+| 通用 UI · 15 | Button、DownloadButton、Input、DatePicker、Textarea、Switch、Badge、Card、StackedCards、Separator、Dialog、StackedDrawer、Tabs、Slider、ScrollArea |
+| 视觉动效 · 4 | SpotlightCard、Reveal、AnimatedNumber、BreathingIndicator |
+| 业务组件 · 3 | DataTable、FilterBar、Leaderboard |
 
 Dialog 和 Tabs 使用 Radix Primitives 提供焦点管理与键盘交互。输入组件支持标签、错误提示、原生表单属性与 ref。动效尊重 `prefers-reduced-motion`；DataTable 提供客户端搜索、排序、分页与空状态，适合小型数据集。
 
 全部组件及 Props / Column / Option 类型由主入口导出。打开工作台的组件详情可查看当前 API；完整声明随包发布。
+
+### 呼吸指示器
+
+`status` 可选 `normal`（正常运行）、`degraded`（系统部分出错）和 `failed`（系统完全瘫痪）。异常状态覆盖装饰配色：部分出错使用琥珀色与迟滞节奏；完全瘫痪使用红色、静态下沉云团 / 断环 / 压平光带，停止动画调度。恢复正常后继续运动。未传 `label` 时自动展示对应状态文字；自定义 `label` 时由调用方保持文字与状态一致。
+
+`BreathingIndicator` 提供三种动态形态：`variant="glow"` 浮光（叠层柔光缓慢变形）、`variant="orbit"` 游环（起伏曲线与游走亮点）、`variant="wave"` 潮息（错峰移动的丝带）。支持 `label`、`description`、`hideLabel`、四色 `tone`、三档 `size` 和基础节奏 `duration`（默认 6000ms，最小 1600ms）。`paused` 冻结当前阶段，恢复时继续，不改变业务状态文字。视觉通过 Canvas 绘制，文字保持原生 DOM；无需图片资源或额外动画依赖。
+
+工作台 `#component/BreathingIndicator` 并排展示三种形态，可统一切换配色、节奏与暂停，并展示小尺寸用法；总览卡片提供三种样式切换。重绘限制为每秒最多 30 次，离屏、页面隐藏、暂停或系统要求减少动态效果时停止动画；卸载时释放监听器与动画帧。新版尺寸包含完整光效留白，不再沿用旧版小圆点的几何尺寸。
+
+### 下载按钮
+
+`DownloadButton` 是独立组件，接收 `filename` 及二选一的 `data`（字符串或 Blob）或 `href`（文件 URL）。支持 Button 的尺寸、样式、禁用和加载状态，可通过 `icon` 传入图标。`onDownload` 表示已请求浏览器下载，不代表文件保存完成；跨域 URL 的下载行为取决于浏览器与服务端响应。工作台 `#component/DownloadButton` 提供文本、JSON 与禁用状态演示。
+
+### 排行榜
+
+`Leaderboard` 使用橙、蓝、紫、青绿四色区分条目，包含名次、可选头像、分数、相对榜首的进度条与排名变化。传入 `items`（唯一 `id`、`name`、`value`，可选 `avatar`、`tone`、`change`）；按分数降序展示，同分保持输入顺序。正数 `change` 表示上升，负数表示下降。显式设置 `tone` 可在数据重排后保留条目颜色。负数与非有限分数按 0 展示，全零数据的比例为 0%。支持空状态、头像失败时的姓名首字、窄容器、深色主题及减少动态效果。
+
+工作台 `#component/Leaderboard` 提供分数更新和空状态演示。分数变化后自动重排，条长随榜首数值重新计算；演示数据仅在当前页面有效。`formatValue`、`valueLabel` 和 `renderChange` 可定制分数格式、单位及变化图标，基础组件不依赖图标库。
 
 ### 堆叠卡片列表
 

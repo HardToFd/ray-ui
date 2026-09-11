@@ -1,10 +1,12 @@
 @import './styles/primitives.css';
 @import './styles/slider.css';
+@import './styles/leaderboard.css';
 @import './styles/scroll-area.css';
 @import './styles/date-picker.css';
 @import './styles/stacked-drawer.css';
 @import './styles/stacked-cards.css';
 @import './styles/motion.css';
+@import './styles/breathing-indicator.css';
 @import './styles/business.css';
 
 /* Keep component geometry independent of the consuming app's CSS reset. */

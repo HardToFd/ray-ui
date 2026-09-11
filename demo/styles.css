@@ -651,6 +651,10 @@ main {
   padding: 20px;
   position: relative;
 }
+.component-card--Leaderboard .component-stage:not(.component-stage--code) {
+  height: auto;
+  min-height: 196px;
+}
 .component-caption {
   width: 100%;
   display: flex;

@@ -1,7 +1,10 @@
 "use client";
 
 export * from './components/primitives';
+export * from './components/download-button';
+export * from './components/breathing-indicator';
 export * from './components/slider';
+export * from './components/leaderboard';
 export * from './components/scroll-area';
 export * from './components/date-picker';
 export * from './components/stacked-drawer';

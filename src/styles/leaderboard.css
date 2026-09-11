@@ -1,0 +1,44 @@
+.ray-leaderboard { width: 100%; min-width: 0; color: var(--ray-text); container-type: inline-size; }
+.ray-leaderboard__title { margin: 0 0 20px; font-size: 26px; font-weight: 700; letter-spacing: -.035em; line-height: 1.4; }
+.ray-leaderboard__list { list-style: none; margin: 0; padding: 0; }
+.ray-leaderboard__row { --rank-color: #df5a31; display: grid; grid-template-columns: 38px 58px minmax(0, 1fr) 48px; align-items: center; gap: 18px; padding: 22px 0; }
+.ray-leaderboard__row + .ray-leaderboard__row { border-top: 1px solid var(--ray-border); }
+.ray-leaderboard__row[data-tone='blue'] { --rank-color: #4285d4; }
+.ray-leaderboard__row[data-tone='purple'] { --rank-color: #8b65c5; }
+.ray-leaderboard__row[data-tone='teal'] { --rank-color: #329c89; }
+.ray-leaderboard__rank { color: var(--rank-color); font-size: 28px; font-weight: 650; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+.ray-leaderboard__avatar { position: relative; display: grid; place-items: center; width: 58px; height: 58px; overflow: hidden; border-radius: 50%; background: var(--ray-surface-raised); color: var(--ray-muted); font-size: 19px; }
+.ray-leaderboard__avatar img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ray-leaderboard__body { min-width: 0; }
+.ray-leaderboard__details { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.ray-leaderboard__name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 18px; font-weight: 600; }
+.ray-leaderboard__value { flex-shrink: 0; font-size: 21px; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -.025em; }
+.ray-leaderboard__track { height: 16px; overflow: hidden; border-radius: 5px; background: color-mix(in srgb, var(--rank-color) 8%, var(--ray-bg)); }
+.ray-leaderboard__fill { display: block; width: var(--ray-leaderboard-percent); height: 100%; border-top: 4px solid var(--rank-color); border-radius: 5px 5px 0 0; background: color-mix(in srgb, var(--rank-color) 18%, transparent); transition: width 400ms ease; }
+.ray-leaderboard__meta { align-self: stretch; display: flex; flex-direction: column; justify-content: center; gap: 12px; text-align: right; font-variant-numeric: tabular-nums; }
+.ray-leaderboard__change { font-size: 13px; line-height: 25px; color: var(--ray-muted); white-space: nowrap; }
+.ray-leaderboard__change > span { display: inline-flex; align-items: center; justify-content: flex-end; gap: 6px; }
+.ray-leaderboard__change[data-direction='up'] { color: var(--ray-accent); }
+.ray-leaderboard__change[data-direction='down'] { color: #39815b; }
+.ray-leaderboard__percent { font-size: 14px; line-height: 16px; color: var(--ray-muted); }
+.ray-leaderboard__empty { padding: 40px 0; color: var(--ray-muted); text-align: center; }
+[data-ray-theme='dark'] .ray-leaderboard__row[data-tone='orange'] { --rank-color: #ed885e; }
+[data-ray-theme='dark'] .ray-leaderboard__row[data-tone='blue'] { --rank-color: #74a9eb; }
+[data-ray-theme='dark'] .ray-leaderboard__row[data-tone='purple'] { --rank-color: #b094e3; }
+[data-ray-theme='dark'] .ray-leaderboard__row[data-tone='teal'] { --rank-color: #62beaa; }
+[data-ray-theme='dark'] .ray-leaderboard__change[data-direction='down'] { color: #80bd95; }
+@container (max-width: 420px) {
+  .ray-leaderboard__title { font-size: 22px; margin-bottom: 10px; }
+  .ray-leaderboard__row { grid-template-columns: 27px 36px minmax(0, 1fr) 34px; gap: 9px; padding: 18px 0; }
+  .ray-leaderboard__rank { font-size: 21px; }
+  .ray-leaderboard__avatar { width: 36px; height: 36px; font-size: 15px; }
+  .ray-leaderboard__name { font-size: 14px; }
+  .ray-leaderboard__value { font-size: 15px; }
+  .ray-leaderboard__details { gap: 6px; margin-bottom: 10px; }
+  .ray-leaderboard__track { height: 12px; }
+  .ray-leaderboard__fill { border-top-width: 3px; }
+  .ray-leaderboard__change { font-size: 11px; line-height: 20px; }
+  .ray-leaderboard__percent { font-size: 11px; line-height: 12px; }
+  .ray-leaderboard__meta { gap: 10px; }
+}
+@media (prefers-reduced-motion: reduce) { .ray-leaderboard__fill { transition: none; } }
