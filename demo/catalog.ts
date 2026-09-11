@@ -17,6 +17,34 @@ export const categories = [
 
 export const catalog: ComponentDoc[] = [
   {
+    name: "ScrollArea",
+    chinese: "滚动条",
+    category: "ui",
+    description: "细细一条，让长内容自在向下延伸。",
+    code: `import { ScrollArea } from '@ray-ui/react';\n\n<ScrollArea aria-label="内容列表" style={{ height: 300 }}>\n  {/* 放入超过容器高度的内容，即可滚动 */}\n</ScrollArea>\n\n// 页面或已有滚动容器也可直接添加 className="ray-scrollbar"。`,
+    props: [
+      ["aria-label", "string，滚动区域的可访问名称", "必填"],
+      ["children", "ReactNode，滚动内容", "—"],
+      ["style / className", "容器样式，可设置 height / maxHeight", "max-height: 320px"],
+      ["tabIndex / ref", "原生 div 属性；聚焦后支持键盘滚动", "0 / —"],
+    ],
+  },
+  {
+    name: "Slider",
+    chinese: "滑动条",
+    category: "ui",
+    description: "轻轻滑动，把数值调到刚刚好。",
+    code: `import { useState } from 'react';\nimport { Slider } from '@ray-ui/react';\n\nexport function Volume() {\n  const [value, setValue] = useState(64);\n  return <Slider label="播放音量" value={value}\n    onValueChange={setValue}\n    formatValue={(value) => value + '%'} />;\n}`,
+    props: [
+      ["label / value", "string / number，标签与受控数值", "必填"],
+      ["onValueChange", "(value: number) => void", "—"],
+      ["min / max / step", "number，范围与步长；value 应对齐步长", "0 / 100 / 1"],
+      ["formatValue", "(value: number) => string，数值显示格式", "String"],
+      ["disabled / name / ref", "原生 input 属性", "—"],
+      ["className / style", "外层容器样式", "—"],
+    ],
+  },
+  {
     name: "Button",
     chinese: "按钮",
     category: "ui",
