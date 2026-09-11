@@ -2,6 +2,9 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { DatePickerDemo } from './DatePickerDemo';
 import { StackedDrawerDemo } from './StackedDrawerDemo';
 import { StackedCardsDemo } from './StackedCardsDemo';
+import { LeaderboardDemo } from './LeaderboardDemo';
+import { DownloadButtonDemo } from './DownloadButtonDemo';
+import { BreathingIndicatorDemo } from './BreathingIndicatorDemo';
 import {
   ArrowLeft,
   ArrowRight,
@@ -161,6 +164,12 @@ function ComponentPreview({
   };
 
   switch (name) {
+    case "BreathingIndicator":
+      return <BreathingIndicatorDemo expanded={expanded} />;
+    case "DownloadButton":
+      return <DownloadButtonDemo expanded={expanded} />;
+    case "Leaderboard":
+      return <LeaderboardDemo expanded={expanded} />;
     case "ScrollArea":
       return <ScrollArea aria-label="灵感清单" style={{ height: expanded ? 300 : 170, width: 360, maxWidth: '100%', padding: '0 20px' }}>
         {['收集一点灵感', '挑选喜欢的配色', '画下第一个草图', '打磨小小的细节', '留一些呼吸空间', '试试不同的组合', '让交互自然发生', '完成今天的创作'].map((title, index) =>
