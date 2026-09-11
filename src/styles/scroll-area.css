@@ -1,0 +1,11 @@
+.ray-scroll-area { max-height: 320px; overflow: auto; scrollbar-gutter: stable; }
+.ray-scroll-area:focus-visible { outline: 2px solid var(--ray-ring); outline-offset: 3px; border-radius: var(--ray-radius); }
+.ray-scrollbar { scrollbar-width: thin; scrollbar-color: var(--ray-muted) var(--ray-surface-raised); }
+.ray-scrollbar:hover { scrollbar-color: var(--ray-accent) var(--ray-surface-raised); }
+.ray-scrollbar::-webkit-scrollbar { width: 10px; height: 10px; }
+.ray-scrollbar::-webkit-scrollbar-track { background: var(--ray-surface-raised); border-radius: 99px; }
+.ray-scrollbar::-webkit-scrollbar-thumb { background: var(--ray-muted); border: 3px solid var(--ray-surface-raised); border-radius: 99px; }
+.ray-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--ray-accent); }
+@media (forced-colors: active) {
+  .ray-scrollbar, .ray-scrollbar:hover { scrollbar-color: auto; }
+}

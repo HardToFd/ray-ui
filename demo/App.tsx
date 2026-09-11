@@ -41,6 +41,8 @@ import {
   Separator,
   SpotlightCard,
   Switch,
+  Slider,
+  ScrollArea,
   Tabs,
   Textarea,
 } from "../src";
@@ -133,6 +135,7 @@ function ComponentPreview({
   expanded?: boolean;
 }) {
   const [enabled, setEnabled] = useState(true);
+  const [volume, setVolume] = useState(64);
   const [count, setCount] = useState(1280);
   const [filter, setFilter] = useState("all");
   const [replay, setReplay] = useState(0);
@@ -158,6 +161,19 @@ function ComponentPreview({
   };
 
   switch (name) {
+    case "ScrollArea":
+      return <ScrollArea aria-label="灵感清单" style={{ height: expanded ? 300 : 170, width: 360, maxWidth: '100%', padding: '0 20px' }}>
+        {['收集一点灵感', '挑选喜欢的配色', '画下第一个草图', '打磨小小的细节', '留一些呼吸空间', '试试不同的组合', '让交互自然发生', '完成今天的创作'].map((title, index) =>
+          <div key={title} style={{ padding: '20px 0', borderBottom: '1px solid var(--ray-border)', display: 'flex', gap: 16, alignItems: 'center' }}>
+            <span style={{ color: 'var(--ray-accent)', fontSize: 12, fontVariantNumeric: 'tabular-nums' }}>{String(index + 1).padStart(2, '0')}</span>
+            <span style={{ color: 'var(--ray-text)', fontSize: 14 }}>{title}</span>
+          </div>)}
+      </ScrollArea>;
+    case "Slider":
+      return <div style={{ width: expanded ? 380 : 260, maxWidth: '100%', display: 'grid', gap: 28 }}>
+        <Slider label="播放音量" value={volume} onValueChange={setVolume} formatValue={(value) => `${value}%`} />
+        {expanded && <Slider label="默认音量 · 已锁定" value={40} disabled formatValue={(value) => `${value}%`} />}
+      </div>;
     case "Button":
       return (
         <div className="preview-stack">
@@ -1057,7 +1073,7 @@ export function App() {
           <span className="brand-beta">LAB</span>
         </button>
         <div className="workspace-caption">YOUR CREATIVE TOOLKIT</div>
-        <nav>
+        <nav className="ray-scrollbar">
           <span className="nav-section-label">开始探索</span>
           <button
             className={`nav-item ${page === "components" && !selected && category === "all" ? "active" : ""}`}
