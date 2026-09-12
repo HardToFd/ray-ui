@@ -1,0 +1,18 @@
+.ray-carousel { width: 100%; min-width: 0; color: var(--ray-text); }
+.ray-carousel__viewport { overflow: hidden; border-radius: calc(var(--ray-radius) * 2); background: var(--ray-surface-raised); touch-action: pan-y pinch-zoom; }
+.ray-carousel__slide:not([hidden]) { animation: ray-carousel-enter 300ms ease-out; }
+.ray-carousel__slide img { display: block; width: 100%; height: auto; }
+.ray-carousel__empty { padding: 64px 24px; text-align: center; color: var(--ray-muted); }
+.ray-carousel__controls { display: flex; align-items: center; justify-content: center; gap: 12px; padding-top: 16px; }
+.ray-carousel__controls button { display: grid; place-items: center; flex-shrink: 0; width: 36px; height: 36px; border: 1px solid var(--ray-border); border-radius: 50%; background: var(--ray-surface); color: var(--ray-text); font: inherit; cursor: pointer; }
+.ray-carousel__controls button:hover:not(:disabled) { background: var(--ray-surface-raised); }
+.ray-carousel__controls button:disabled { opacity: .35; cursor: default; }
+.ray-carousel:focus-visible, .ray-carousel button:focus-visible { outline: 2px solid var(--ray-ring); outline-offset: 4px; }
+.ray-carousel__dots { display: flex; flex-wrap: wrap; justify-content: center; min-width: 0; }
+.ray-carousel__dots button { width: 28px; border: 0; background: transparent; border-radius: 6px; }
+.ray-carousel__dots span { width: 6px; height: 6px; border-radius: 8px; background: var(--ray-muted); transition: width 200ms ease; }
+.ray-carousel__dots [aria-current] span { width: 20px; background: var(--ray-accent); }
+.ray-carousel__controls .ray-carousel__play { width: auto; padding: 0 12px; border-radius: 18px; font-size: 12px; }
+.ray-carousel__status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@keyframes ray-carousel-enter { from { opacity: .5; transform: translateX(8px); } to { opacity: 1; transform: translateX(0); } }
+@media (prefers-reduced-motion: reduce) { .ray-carousel__slide:not([hidden]) { animation: none; } .ray-carousel__dots span { transition: none; } }
