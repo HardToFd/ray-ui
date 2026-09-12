@@ -23,9 +23,9 @@ npm run dev
 
 | 分类 | 组件 |
 | --- | --- |
-| 通用 UI · 15 | Button、DownloadButton、Input、DatePicker、Textarea、Switch、Badge、Card、StackedCards、Separator、Dialog、StackedDrawer、Tabs、Slider、ScrollArea |
-| 视觉动效 · 4 | SpotlightCard、Reveal、AnimatedNumber、BreathingIndicator |
-| 业务组件 · 3 | DataTable、FilterBar、Leaderboard |
+| 通用 UI · 16 | Button、DownloadButton、Input、DatePicker、Textarea、Switch、Badge、Card、StackedCards、Separator、Dialog、StackedDrawer、Tabs、Slider、ScrollArea、Carousel |
+| 视觉动效 · 5 | SpotlightCard、Reveal、AnimatedNumber、BreathingIndicator、AIOrb |
+| 业务组件 · 5 | DataTable、FilterBar、Leaderboard、Heatmap、FlameGraph |
 
 Dialog 和 Tabs 使用 Radix Primitives 提供焦点管理与键盘交互。输入组件支持标签、错误提示、原生表单属性与 ref。动效尊重 `prefers-reduced-motion`；DataTable 提供客户端搜索、排序、分页与空状态，适合小型数据集。
 
@@ -42,6 +42,65 @@ Dialog 和 Tabs 使用 Radix Primitives 提供焦点管理与键盘交互。输�
 ### 下载按钮
 
 `DownloadButton` 是独立组件，接收 `filename` 及二选一的 `data`（字符串或 Blob）或 `href`（文件 URL）。支持 Button 的尺寸、样式、禁用和加载状态，可通过 `icon` 传入图标。`onDownload` 表示已请求浏览器下载，不代表文件保存完成；跨域 URL 的下载行为取决于浏览器与服务端响应。工作台 `#component/DownloadButton` 提供文本、JSON 与禁用状态演示。
+
+### 火焰图
+
+`FlameGraph` 展示聚合后的调用栈：底部是入口，向上逐层展开，条块宽度代表包含子调用的总耗时。横向位置按输入顺序排列，不表示实际发生时间；颜色按函数名称稳定分配，用于区分条块。图形语义参考 [Brendan Gregg 的 Flame Graphs 说明](https://www.brendangregg.com/flamegraphs.html)。
+
+```tsx
+import { FlameGraph } from '@ray-ui/react';
+import '@ray-ui/react/styles.css';
+
+<FlameGraph data={[{
+  id: 'app', name: 'app.bootstrap()', value: 1000,
+  children: [
+    { id: 'fetch', name: 'fetchData()', value: 650, children: [
+      { id: 'parse', name: 'JSON.parse()', value: 240 },
+    ] },
+    { id: 'render', name: 'render()', value: 280 },
+  ],
+}]} />
+```
+
+`data` 为调用树数组，每个节点有全树唯一 `id`、`name`、可选 `value` 与 `children`。`value` 包含子节点耗时，不能把父子值再次相加作为总体耗时；自身耗时等于节点值减去直属子节点总和，图上为子调用右侧的留白。父值省略、负数或非有限时按 0 起算；如果小于子调用总和，则提升到子调用总和，详情展示规范化后的值。数据不会被修改。重复或空 id、循环、数值溢出、超过 100 层或 5000 节点时显示具体说明。空数组与全零数据展示 `emptyMessage`。
+
+点击条块将该子树放大至全宽，支持“返回上层”和“全部调用”；`value` / `defaultValue` 为下钻节点 id，`null` 表示全部，`onValueChange(id)` 通知视图变化。受控时由调用方更新 `value`，失效或零值 id 回到全部视图。悬停和键盘聚焦会更新下方详情：函数路径、总耗时、自身耗时与占全部数据的百分比，下钻时该百分比仍相对于整个输入数据。
+
+搜索函数名称时高亮匹配条块并显示匹配数量，不改变布局；`showSearch={false}` 隐藏搜索，`showDetails={false}` 隐藏详情。所有条块仍保留完整可访问名称和原生悬停提示。Tab 进入图表后，左右键移动同层，上键进入子调用，下键返回父调用，Home / End 移到同层首尾（配合 Ctrl 为全图首尾），Enter / Space 下钻，Esc 返回上层；下钻后将焦点移到当前子树入口。
+
+`formatValue` 默认格式化为毫秒，可统一改成秒或采样次数；所有节点必须采用相同单位。`--ray-flame-row-height` 默认 31px，用来调整条块行高。支持深浅主题和减少动态效果，小条块省略可见文字，可通过下钻查看完整名称。组件使用原生 DOM，不增加图表依赖，也不负责录制或导入浏览器性能文件。
+
+工作台 `#component/FlameGraph` 提供原始样本 / 优化后、函数搜索、交互下钻和空状态演示，均使用模拟数据。已有的日历热力图继续保留在 `#component/Heatmap`。
+
+### 热力图
+
+`Heatmap` 是按天展示的活动日历，适合贡献记录、习惯打卡和阅读时长。支持绿色、橙色、蓝色、紫色四套五级色阶，浅色 / 深色主题、月份与星期标签、图例、悬停 / 聚焦提示和日期选择。
+
+```tsx
+import { Heatmap } from '@ray-ui/react';
+import '@ray-ui/react/styles.css';
+
+<Heatmap
+  startDate="2026-06-15"
+  endDate="2026-09-12"
+  data={[
+    { date: '2026-09-10', value: 4 },
+    { date: '2026-09-11', value: 9 },
+    { date: '2026-09-12', value: 6 },
+  ]}
+  tone="green"
+  formatValue={(value) => `${value} 次贡献`}
+  onValueChange={(date, day) => console.log(date, day.value)}
+/>
+```
+
+`startDate` / `endDate` 使用严格的 `YYYY-MM-DD`，包含首尾，最多 366 天；支持跨年和闰日，按日历日期计算，不受时区或夏令时影响。非法或倒置范围显示说明。`data` 中缺失日期补 0，同日最后一条生效，范围外及无效日期忽略，负数与非有限数值按 0 处理。空数组保留全零日历，`emptyMessage` 自定义全零状态文字。
+
+默认相对当前范围最大值均分四档正值色阶，0 独立为最浅色。可用正数 `maxValue` 固定色阶上限，适合多个图表之间比较；超过上限只封顶颜色，保留实际数值。`formatValue` 同时用于格子的可访问名称、提示、选日反馈和图例名称。`showLegend={false}` 隐藏图例；每格始终提供完整日期与数值，不仅靠颜色表达。
+
+`value` / `defaultValue` 接受选中日期或 `null`，`onValueChange(date, day)` 返回日期及规范化后的数据。受控时由调用方更新 `value`；范围外的选中值不展示选择。默认周一开始，`weekStartsOn={0}` 改为周日。Tab 进入日历，左右方向键移动一周，上下移动同一列内的一天，Home / End 移至当前行首尾，Ctrl + Home / End 移至整个范围首尾；Enter / Space 选择，Esc 关闭提示，再按 Tab 离开。
+
+窄容器横向滚动；可用 CSS 变量 `--ray-heatmap-cell-size`（默认 11px）、`--ray-heatmap-gap`（3px）调整密度，`--ray-heatmap-color` 自定义主色。动画只用于颜色与悬停反馈，尊重减少动态效果偏好。组件无新增依赖。工作台 `#component/Heatmap` 提供过去一年 / 最近 90 天、配色切换、贡献统计及空状态演示；数据为固定示例。
 
 ### 排行榜
 
@@ -170,6 +229,45 @@ site-dist/                可静态托管的文档站
 ```
 
 添加组件时，在对应类别实现并导出，更新 `demo/catalog.ts` 和 `ComponentPreview`，让代码、预览与文档一起落地。涉及键盘行为或数据处理时，补充有意义的回归测试。
+
+## AIOrb AI 对话球
+
+具有玻璃质感的动态彩色光球，内部光流随对话状态自然变化，可用于语音助手、对话入口和 AI 回复状态。采用 WebGL 实时渲染，无需图片或额外依赖。
+
+```tsx
+import { AIOrb } from '@ray-ui/react';
+import '@ray-ui/react/styles.css';
+
+<AIOrb state="idle" size="lg" />
+<AIOrb state="listening" audioLevel={0.45} />
+<AIOrb state="thinking" />
+<AIOrb state="speaking" audioLevel={0.8} label="正在为你解答" />
+```
+
+- `state`：`idle` 缓慢流动、`listening` 聆听、`thinking` 加速思考、`speaking` 音量脉动、`error` 暖红色中断状态。默认 `idle`，状态变化平滑过渡。
+- `audioLevel`：归一化音量 `0–1`，仅聆听和回应状态生效。由应用传入，组件本身不申请麦克风权限、不识别或合成语音。演示页面的对话和音量均为模拟数据。
+- `size`：`sm` / `md` / `lg`（64 / 144 / 256px），或 32–512px 数字，包含周围柔光；容器较窄时自动缩小。
+- `paused` 冻结动画，恢复时延续原相位。系统减少动态效果、离屏或页面进入后台时停止帧调度。绘制上限约 30fps，像素密度上限 2。
+- `label` 自定义状态文本；`hideLabel` 仅隐藏可见文字，保留读屏播报。组件为状态呈现，交互入口应由应用使用按钮承载。
+- 支持原生 `span` 属性与 `ref`。WebGL 不可用时显示静态渐变球，图形上下文丢失后自动尝试恢复。
+
+## Carousel 轮播图
+
+```tsx
+import { Carousel } from '@ray-ui/react';
+import '@ray-ui/react/styles.css';
+
+<Carousel aria-label="旅行相册" items={[
+  { id: 'mountain', label: '山间清晨', content: <img src="/mountain.jpg" alt="晨光中的山峦" /> },
+  { id: 'sea', label: '海边日落', content: <img src="/sea.jpg" alt="夕阳下的海岸" /> },
+]} />
+```
+
+`items` 接受唯一 `id`、可访问名称 `label` 与任意 React `content`。`value` / `defaultValue` 为从 0 开始的索引，`onValueChange` 通知切换；越界索引会限制到有效范围。默认首尾循环，设置 `loop={false}` 可关闭。空列表显示空状态，单张隐藏导航。
+
+支持箭头按钮、圆点导航和触摸滑动。Tab 聚焦轮播区域后，可使用左右方向键、Home / End；非当前幻灯片隐藏且不可聚焦。图片尺寸由内容决定，建议提供相同宽高比以保持布局稳定。
+
+自动播放默认关闭，使用 `autoPlay` 开启，`interval` 默认 5000 毫秒、最小 1000 毫秒。提供暂停按钮，悬停或焦点位于内部时暂停；后台页面不切换，系统开启减少动态效果时禁用自动播放与切换动画。文档站包含三张本地矢量风景示例和自动播放开关。
 
 ## 开发命令
 

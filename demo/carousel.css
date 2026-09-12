@@ -1,0 +1,19 @@
+.carousel-demo { width: 100%; max-width: 520px; padding: 12px; }
+.carousel-demo--expanded { max-width: 800px; padding: 24px; }
+.carousel-demo:not(.carousel-demo--expanded) { padding: 0; }
+.carousel-demo:not(.carousel-demo--expanded) .carousel-demo__scene svg { min-height: 0; aspect-ratio: 5 / 3; }
+.carousel-demo:not(.carousel-demo--expanded) .carousel-demo__caption h4 { font-size: clamp(18px, 2vw, 24px); margin: 8px 0 6px; }
+.carousel-demo:not(.carousel-demo--expanded) .carousel-demo__caption > span { font-size: 8px; }
+.carousel-demo:not(.carousel-demo--expanded) .carousel-demo__caption p { font-size: 10px; }
+.carousel-demo__intro { margin-bottom: 24px; }
+.carousel-demo__intro > span { font-size: 10px; letter-spacing: .16em; color: var(--ray-muted); }
+.carousel-demo__intro h3 { font-size: clamp(20px, 3vw, 30px); font-weight: 500; margin: 12px 0; }
+.carousel-demo__intro p { color: var(--ray-muted); font-size: 13px; }
+.carousel-demo__scene { position: relative; isolation: isolate; }
+.carousel-demo__scene svg { display: block; width: 100%; height: auto; min-height: 230px; object-fit: cover; }
+.carousel-demo__scene::after { content: ''; position: absolute; inset: 35% 0 0; background: linear-gradient(transparent, #14291e88); pointer-events: none; }
+.carousel-demo__caption { position: absolute; z-index: 1; left: 7%; bottom: 10%; color: #fff; text-align: left; }
+.carousel-demo__caption > span { font-size: 10px; letter-spacing: .16em; }
+.carousel-demo__caption h4 { font-size: clamp(23px, 3vw, 36px); font-weight: 500; margin: 12px 0 8px; }
+.carousel-demo__caption p { margin: 0; font-size: 12px; }
+.carousel-demo__footer { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 24px; font-size: 12px; color: var(--ray-muted); }

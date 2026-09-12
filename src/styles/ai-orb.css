@@ -1,0 +1,8 @@
+.ray-ai-orb { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; max-width: 100%; vertical-align: middle; color: var(--ray-text); }
+.ray-ai-orb__visual { display: block; position: relative; width: var(--ray-orb-size, 144px); max-width: 100%; aspect-ratio: 1; }
+.ray-ai-orb__canvas { position: relative; display: block; width: 100%; height: 100%; }
+.ray-ai-orb__fallback { position: absolute; inset: 15%; border-radius: 50%; background: radial-gradient(ellipse at 30% 25%, #d9faffb3, transparent 45%), radial-gradient(ellipse at 72% 65%, #ee84ae, transparent 65%), radial-gradient(ellipse at 18% 70%, #53d5ed, transparent 65%), #7661cd; box-shadow: inset 0 0 14px #d6edff88, 0 0 18px #7868ed33; }
+.ray-ai-orb__visual[data-rendered='true'] .ray-ai-orb__fallback { display: none; }
+.ray-ai-orb[data-state='error'] .ray-ai-orb__fallback { background: radial-gradient(circle at 30% 25%, #ffddce, #e47b7b 45%, #97556d); }
+.ray-ai-orb__label { font-size: 12px; line-height: 1.6; color: var(--ray-muted); text-align: center; }
+.ray-ai-orb__sr-label { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }

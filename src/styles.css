@@ -5,6 +5,10 @@
 @import './styles/date-picker.css';
 @import './styles/stacked-drawer.css';
 @import './styles/stacked-cards.css';
+@import './styles/carousel.css';
+@import './styles/ai-orb.css';
+@import './styles/heatmap.css';
+@import './styles/flame-graph.css';
 @import './styles/motion.css';
 @import './styles/breathing-indicator.css';
 @import './styles/business.css';

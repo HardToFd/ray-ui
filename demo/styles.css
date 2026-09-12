@@ -651,7 +651,10 @@ main {
   padding: 20px;
   position: relative;
 }
-.component-card--Leaderboard .component-stage:not(.component-stage--code) {
+.component-card--Leaderboard .component-stage:not(.component-stage--code),
+.component-card--Heatmap .component-stage:not(.component-stage--code),
+.component-card--FlameGraph .component-stage:not(.component-stage--code),
+.component-card--Carousel .component-stage:not(.component-stage--code) {
   height: auto;
   min-height: 196px;
 }
