@@ -23,13 +23,87 @@ npm run dev
 
 | 分类 | 组件 |
 | --- | --- |
-| 通用 UI · 16 | Button、DownloadButton、Input、DatePicker、Textarea、Switch、Badge、Card、StackedCards、Separator、Dialog、StackedDrawer、Tabs、Slider、ScrollArea、Carousel |
+| 通用 UI · 19 | Button、DownloadButton、HomeButton、Input、DatePicker、Textarea、Switch、Badge、Card、StackedCards、Separator、Dialog、StackedDrawer、Tabs、Slider、ScrollArea、PageNavigation、Pagination、Carousel |
 | 视觉动效 · 5 | SpotlightCard、Reveal、AnimatedNumber、BreathingIndicator、AIOrb |
 | 业务组件 · 5 | DataTable、FilterBar、Leaderboard、Heatmap、FlameGraph |
 
 Dialog 和 Tabs 使用 Radix Primitives 提供焦点管理与键盘交互。输入组件支持标签、错误提示、原生表单属性与 ref。动效尊重 `prefers-reduced-motion`；DataTable 提供客户端搜索、排序、分页与空状态，适合小型数据集。
 
 全部组件及 Props / Column / Option 类型由主入口导出。打开工作台的组件详情可查看当前 API；完整声明随包发布。
+
+### 分页
+
+`Pagination` 是独立分页控件，包含上一页 / 下一页、当前页高亮、首尾页码和省略号。页码最多渲染 7 项，记录量较大时也不会生成整份页码数组。提供 `default` / `compact` 两种形式和 `sm` / `md` 尺寸；容器宽度不超过 420px 时自动收起页码，保留上一页、当前页 / 总页数和下一页。
+
+```tsx
+import { useState } from 'react';
+import { Pagination } from '@ray-ui/react';
+import '@ray-ui/react/styles.css';
+
+export function Archive() {
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  return <Pagination total={96} page={page} pageSize={pageSize}
+    onPageChange={(next, size) => { setPage(next); setPageSize(size); }}
+    showTotal showSizeChanger showQuickJumper />;
+}
+```
+
+`total` 是总记录数，页码从 1 开始，总页数为 `Math.ceil(total / pageSize)`。`page` / `pageSize` 为受控属性，不传时分别使用 `defaultPage`（1）和 `defaultPageSize`（10）管理内部状态。受控模式下由调用方更新属性；数据获取、列表切片、滚动和路由焦点由应用负责。筛选或外部数据减少时，页码显示限制到有效范围，内部页码同步收敛，不自动触发业务回调；调用方展示的内容也应使用相同的规范化页码。
+
+`showTotal` 展示当前条目范围。`showSizeChanger` 使用 Radix 自定义选择器，支持键盘与深浅主题；`pageSizeOptions` 默认 `[10, 20, 50, 100]`，无效 / 重复选项剔除，当前条数始终保留。修改条数时依次触发 `onPageSizeChange(size)` 和 `onPageChange(1, size)`；可以只使用后者统一更新页码和条数。`showQuickJumper` 支持输入整数页码，Enter 或点击“跳转”确认，无效输入给出关联错误提示，不提交外层表单。
+
+`total=0` 时保留 `0 / 0`，禁用翻页和跳页；`disabled` 禁用所有分页交互。非有限总数按 0，非有限页码按 1，非有限条数按 10，数值向下取整并限制在安全整数范围。原生按钮支持 Tab、Enter、Space，当前页使用 `aria-current="page"`，切页后播报位置；省略号仅作分隔，不参与 Tab 顺序。
+
+工作台 `#component/Pagination` 提供 96 条本地模拟笔记，可体验分类筛选、页码切换、每页条数、快速跳页、紧凑 / 禁用状态和空数据。已有 `DataTable` 的内置简洁分页继续保留。
+
+### 回到首页
+
+`HomeButton` 是独立的首页导航链接：小屋图标、圆角胶囊与归家箭头，悬停 / 聚焦时门框点亮、箭头轻移。提供 `surface`（浅底）、`solid`（强调色）、`ghost`（轻量）三种样式，`sm` / `md` / `lg` 三档尺寸与 `iconOnly` 纯图标模式，支持深浅色主题和减少动态效果。
+
+```tsx
+import { HomeButton } from '@ray-ui/react';
+import '@ray-ui/react/styles.css';
+
+<HomeButton href="/" />
+<HomeButton href="/workspace" label="返回工作台" variant="solid" />
+<HomeButton href="/" iconOnly position="bottom-left" />
+
+// navigate 由应用路由提供，接收完整首页地址。
+<HomeButton href="/" onNavigate={(href) => navigate(href)} />
+```
+
+`href` 默认 `/`，部署在子路径的应用应传入实际首页路径。组件渲染原生 `<a>`，支持 Tab 聚焦和 Enter 激活；Ctrl / Cmd 点击、辅助点击、指定新窗口或下载时保留浏览器原生行为。`onNavigate(href)` 仅接管无修饰键的普通同页点击；`onClick` 可调用 `preventDefault()` 取消导航。传入 `target="_blank"` 时补充 `rel="noopener"` 并保留已有 rel 值。
+
+`disabled` 或 `loading` 时移除链接地址、从 Tab 顺序中移出并阻止点击回调。加载状态由调用方管理，显示 `loadingLabel`（默认“正在返回”）和 `aria-busy`；纯图标模式仍保留完整可访问名称与悬停提示。路由完成后的焦点管理由应用负责。
+
+`position="bottom-left"` / `"bottom-right"` 固定在页面下方，可通过 `--ray-home-offset`（默认 24px）和 `--ray-home-z-index`（默认 40）调整边距与层级。工作台 `#component/HomeButton` 展示局部首页切换、样式切换、工具栏入口、禁用 / 加载状态，并提供真实跳转到组件总览的链接。
+
+### 前进、后退与回到顶部
+
+`PageNavigation` 将后退、前进和回到顶部组合成导航胶囊。支持横向 / 纵向、紧凑 / 标准尺寸、可见文字、页面左下 / 右下悬浮，沿用组件库深浅色主题。回顶按钮的细环根据实际滚动距离显示阅读进度，悬停与读屏可获取百分比；滚动到顶部附近时禁用回顶。
+
+```tsx
+import { PageNavigation } from '@ray-ui/react';
+import '@ray-ui/react/styles.css';
+
+<PageNavigation position="bottom-right" orientation="vertical" />
+
+// 接入应用路由时，传入导航动作与历史边界。
+<PageNavigation
+  onBack={() => navigate(-1)} onForward={() => navigate(1)}
+  canGoBack={canGoBack} canGoForward={canGoForward}
+  showLabels
+/>
+```
+
+默认调用 `window.history.back()` / `forward()`。组件不会修改或接管应用的历史记录；浏览器没有提供可通用读取的当前历史索引，因此两个历史按钮默认可用，无记录时浏览器不跳转。准确的禁用状态由调用方通过 `canGoBack` / `canGoForward` 提供。
+
+省略 `scrollTarget` 时滚动窗口。独立容器可用 `const [target, setTarget] = useState<HTMLDivElement | null>(null)`，将 `setTarget` 传给容器的回调 `ref`，再将 `target` 传给 `scrollTarget`。`null` 表示等待挂载，不会回退到滚动窗口；更换目标时清理旧监听并重新测量。组件监听滚动、窗口与内容尺寸变化，滚动测量按动画帧合并，卸载时释放资源。
+
+`topThreshold` 默认 32px，距离顶部不超过该值时禁用回顶，设为 0 可滚动最后几个像素。`behavior` 默认 `smooth`；系统减少动态效果时使用 `instant`，避免宿主页面的平滑滚动样式继续产生动画。`onBackToTop` 在请求滚动前触发，可通过事件的 `preventDefault()` 取消。回顶保留当前键盘焦点，不主动移动到文章标题；原生按钮支持 Tab、Enter、Space，并且不会提交外层表单。
+
+工作台 `#component/PageNavigation` 提供三篇模拟笔记，可前后翻页、滚动回顶、切换排列和文字。演示中的导航控制笔记面板；实际页面悬浮使用 `position="bottom-right"` 或 `"bottom-left"`，边距和层级可通过 `--ray-navigation-offset` 与 `--ray-navigation-z-index` 调整。
 
 ### 呼吸指示器
 

@@ -1,0 +1,74 @@
+.ray-page-navigation {
+  --ray-navigation-button-size: 44px;
+  --ray-navigation-offset: 24px;
+  display: inline-flex;
+  position: relative;
+  align-items: center;
+  gap: 4px;
+  width: max-content;
+  max-width: 100%;
+  padding: 6px;
+  border: 1px solid var(--ray-border);
+  border-radius: 999px;
+  background: var(--ray-surface);
+  color: var(--ray-text);
+  box-shadow: 0 3px 6px #161c1410, 0 12px 30px #161c1408;
+  font-family: inherit;
+}
+.ray-page-navigation--sm { --ray-navigation-button-size: 36px; gap: 2px; padding: 4px; }
+.ray-page-navigation--vertical { flex-direction: column; }
+.ray-page-navigation--vertical.ray-page-navigation--labeled { border-radius: 22px; align-items: stretch; }
+.ray-page-navigation--bottom-right, .ray-page-navigation--bottom-left {
+  position: fixed;
+  z-index: var(--ray-navigation-z-index, 40);
+  bottom: max(var(--ray-navigation-offset), env(safe-area-inset-bottom));
+  max-width: calc(100vw - 2 * var(--ray-navigation-offset));
+}
+.ray-page-navigation--bottom-right { right: max(var(--ray-navigation-offset), env(safe-area-inset-right)); }
+.ray-page-navigation--bottom-left { left: max(var(--ray-navigation-offset), env(safe-area-inset-left)); }
+.ray-page-navigation__button {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  gap: 7px;
+  min-width: var(--ray-navigation-button-size);
+  height: var(--ray-navigation-button-size);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
+}
+.ray-page-navigation__button:hover:not(:disabled) { background: var(--ray-surface-raised); }
+.ray-page-navigation__button:active:not(:disabled) { transform: scale(.94); }
+.ray-page-navigation__button:focus-visible { outline: 2px solid var(--ray-ring); outline-offset: 2px; }
+.ray-page-navigation__button:disabled { color: var(--ray-muted); opacity: .35; cursor: default; }
+.ray-page-navigation__icon { display: grid; position: relative; flex: 0 0 auto; place-items: center; width: var(--ray-navigation-button-size); height: var(--ray-navigation-button-size); }
+.ray-page-navigation__arrow { display: block; width: 19px; height: 19px; }
+.ray-page-navigation__top { color: var(--ray-accent); }
+.ray-page-navigation__top:hover:not(:disabled) { background: color-mix(in srgb, var(--ray-accent) 9%, var(--ray-surface)); }
+.ray-page-navigation__divider { flex: 0 0 auto; width: 1px; height: 22px; margin: 0 4px; background: var(--ray-border); }
+.ray-page-navigation--vertical .ray-page-navigation__divider { width: 22px; height: 1px; margin: 4px 0; align-self: center; }
+.ray-page-navigation__progress { position: absolute; inset: 2px; width: calc(100% - 4px); height: calc(100% - 4px); transform: rotate(-90deg); pointer-events: none; }
+.ray-page-navigation__track { stroke: currentColor; opacity: .16; }
+.ray-page-navigation__fill { stroke: currentColor; transition: stroke-dashoffset 180ms ease; }
+.ray-page-navigation__label { min-width: 0; padding-right: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; font-weight: 500; }
+.ray-page-navigation--labeled .ray-page-navigation__button { gap: 0; }
+.ray-page-navigation--horizontal.ray-page-navigation--labeled .ray-page-navigation__button { flex-shrink: 1; }
+.ray-page-navigation--vertical.ray-page-navigation--labeled .ray-page-navigation__button { justify-content: flex-start; }
+.ray-page-navigation__sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media (prefers-reduced-motion: reduce) {
+  .ray-page-navigation__button, .ray-page-navigation__fill { transition: none; }
+  .ray-page-navigation__button:active:not(:disabled) { transform: none; }
+}
+@media (forced-colors: active) {
+  .ray-page-navigation__button:disabled { color: GrayText; opacity: 1; }
+  .ray-page-navigation__divider { background: CanvasText; }
+}
