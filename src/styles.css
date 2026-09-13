@@ -2,6 +2,9 @@
 @import './styles/slider.css';
 @import './styles/leaderboard.css';
 @import './styles/scroll-area.css';
+@import './styles/page-navigation.css';
+@import './styles/home-button.css';
+@import './styles/pagination.css';
 @import './styles/date-picker.css';
 @import './styles/stacked-drawer.css';
 @import './styles/stacked-cards.css';
