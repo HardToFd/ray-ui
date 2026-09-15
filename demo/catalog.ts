@@ -17,6 +17,24 @@ export const categories = [
 
 export const catalog: ComponentDoc[] = [
   {
+    name: "NotificationHotspot",
+    chinese: "通知热点",
+    category: "ui",
+    description: "一枚轻轻呼吸的提醒，让新消息恰好被看见。",
+    code: `import { NotificationHotspot, Button } from '@ray-ui/react';\nimport '@ray-ui/react/styles.css';\n\n<NotificationHotspot count={8} pulse>\n  <Button>消息</Button>\n</NotificationHotspot>\n\n<NotificationHotspot label="有新通知" />\n<NotificationHotspot count={128} max={99} tone="info" />`,
+    props: [
+      ["children", "ReactNode，包裹按钮、图标或头像；省略时独立显示", "—"],
+      ["count / max", "未读数 / 显示上限，超出显示 99+；count 省略为红点；负数、非有限数按 0，小数向下取整；max 至少 1，非有限数按 99", "— / 99"],
+      ["active / showZero", "是否显示热点 / 是否显示零值", "true / false"],
+      ["pulse", "轻微扩散动画，遵循系统减少动态效果设置", "false"],
+      ["tone", "danger | warning | info | success", "danger"],
+      ["placement", "top-right | top-left | bottom-right | bottom-left", "top-right"],
+      ["label / announce", "读屏通知文字（默认完整数量）/ 使用 status 动态播报", "自动生成 / false"],
+      ["className / style / ref", "原生 span 属性；--ray-hotspot-color 覆盖颜色；热点不拦截点击，子控件需自行提供可访问名称，外层应留出溢出空间", "—"],
+    ],
+  },
+
+  {
     name: "Pagination",
     chinese: "分页",
     category: "ui",

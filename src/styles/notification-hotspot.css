@@ -1,0 +1,33 @@
+.ray-notification-hotspot { position: relative; display: inline-flex; vertical-align: middle; --ray-hotspot-color: #d83046; }
+.ray-notification-hotspot[data-tone='warning'] { --ray-hotspot-color: #955200; }
+.ray-notification-hotspot[data-tone='info'] { --ray-hotspot-color: #2861cf; }
+.ray-notification-hotspot[data-tone='success'] { --ray-hotspot-color: #21814b; }
+.ray-notification-hotspot__marker { position: absolute; z-index: 1; top: 0; right: 0; transform: translate(45%, -45%); display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 5px; border: 2px solid var(--ray-surface, white); border-radius: 999px; background: var(--ray-hotspot-color); color: white; font: 600 11px/1 system-ui, sans-serif; font-variant-numeric: tabular-nums; white-space: nowrap; pointer-events: none; }
+.ray-notification-hotspot__marker[data-dot] { min-width: 11px; width: 11px; height: 11px; padding: 0; }
+.ray-notification-hotspot[data-placement='top-left'] > .ray-notification-hotspot__marker { right: auto; left: 0; transform: translate(-45%, -45%); }
+.ray-notification-hotspot[data-placement='bottom-right'] > .ray-notification-hotspot__marker { top: auto; bottom: 0; transform: translate(45%, 45%); }
+.ray-notification-hotspot[data-placement='bottom-left'] > .ray-notification-hotspot__marker { top: auto; right: auto; bottom: 0; left: 0; transform: translate(-45%, 45%); }
+.ray-notification-hotspot[data-standalone] > .ray-notification-hotspot__marker { position: relative; inset: auto; transform: none; }
+.ray-notification-hotspot__marker {
+  border-width: 1.5px;
+  background: linear-gradient(155deg, #ffffff24, transparent 60%), var(--ray-hotspot-color);
+  box-shadow: 0 2px 5px color-mix(in srgb, var(--ray-hotspot-color) 18%, transparent);
+  animation: ray-hotspot-arrive 420ms cubic-bezier(.22, .8, .3, 1) both;
+}
+.ray-notification-hotspot__marker[data-pulse]::before {
+  content: ''; position: absolute; inset: -5px; border-radius: inherit;
+  background: var(--ray-hotspot-color); filter: blur(3px); z-index: -1;
+  animation: ray-hotspot-pulse 3.6s ease-in-out infinite;
+}
+@keyframes ray-hotspot-pulse {
+  0%, 100% { opacity: .04; transform: scale(.85); }
+  48% { opacity: .19; transform: scale(1.18); }
+}
+@keyframes ray-hotspot-arrive {
+  0% { opacity: 0; scale: .75; }
+  65% { opacity: 1; scale: 1.06; }
+  100% { opacity: 1; scale: 1; }
+}
+.ray-notification-hotspot__label { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+@media (prefers-reduced-motion: reduce) { .ray-notification-hotspot__marker { animation: none; } .ray-notification-hotspot__marker[data-pulse]::before { animation: none; display: none; } }
+@media (forced-colors: active) { .ray-notification-hotspot__marker { background: Highlight; color: HighlightText; border-color: Canvas; forced-color-adjust: none; } .ray-notification-hotspot__marker::before { display: none; } }

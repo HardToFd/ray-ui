@@ -6,6 +6,8 @@
 
 ## 本地启动
 
+在线文档：https://hardtofd.github.io/ray-ui/ 。合并到 `main` 后，GitHub Actions 自动检查并部署组件工作台；PR 只运行检查与构建。
+
 开发环境使用 Node.js 24.14.1、npm 11.11.0，消费端需要 React 19 / React DOM 19。
 
 ```sh
@@ -23,7 +25,7 @@ npm run dev
 
 | 分类 | 组件 |
 | --- | --- |
-| 通用 UI · 19 | Button、DownloadButton、HomeButton、Input、DatePicker、Textarea、Switch、Badge、Card、StackedCards、Separator、Dialog、StackedDrawer、Tabs、Slider、ScrollArea、PageNavigation、Pagination、Carousel |
+| 通用 UI · 20 | NotificationHotspot、Button、DownloadButton、HomeButton、Input、DatePicker、Textarea、Switch、Badge、Card、StackedCards、Separator、Dialog、StackedDrawer、Tabs、Slider、ScrollArea、PageNavigation、Pagination、Carousel |
 | 视觉动效 · 5 | SpotlightCard、Reveal、AnimatedNumber、BreathingIndicator、AIOrb |
 | 业务组件 · 5 | DataTable、FilterBar、Leaderboard、Heatmap、FlameGraph |
 
@@ -367,3 +369,20 @@ import '@ray-ui/react/styles.css';
 - Dialog 自定义触发器应渲染可交互元素，并透传 ref 与事件。所有组件仍需要使用者提供合适的可访问名称和业务文案。
 
 实现参考：[Vite Library Mode](https://vite.dev/guide/build.html#library-mode)、[Radix Dialog](https://www.radix-ui.com/primitives/docs/components/dialog)、[Radix Tabs](https://www.radix-ui.com/primitives/docs/components/tabs)。
+
+### 通知热点 NotificationHotspot
+
+```tsx
+import { NotificationHotspot, Button } from '@ray-ui/react';
+import '@ray-ui/react/styles.css';
+
+<NotificationHotspot count={8} pulse>
+  <Button>消息</Button>
+</NotificationHotspot>
+```
+
+省略 `count` 显示红点；数量超过 `max`（默认 99）显示 `99+`，读屏仍读取完整数量。零值默认隐藏，`showZero` 可保留；`active={false}` 隐藏标记。负数与非有限数量按 0、小数向下取整；`max` 至少为 1，非有限值按 99。
+
+支持四角 `placement`、四种 `tone`（danger / warning / info / success）、`label` 自定义读屏说明和 `announce` 动态播报（默认关闭）。`pulse` 默认关闭，开启后遵循减少动态效果设置。可独立使用或包裹控件，标记不拦截点击；子控件需提供自己的可访问名称，外层布局应为角标留出溢出空间。`ref` 指向外层 span，`--ray-hotspot-color` 可覆盖颜色。
+
+工作台搜索「通知热点」查看交互预览、代码和完整 API。
