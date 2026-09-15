@@ -5,6 +5,7 @@ import { StackedCardsDemo } from './StackedCardsDemo';
 import { CarouselDemo } from './CarouselDemo';
 import { AIOrbDemo } from './AIOrbDemo';
 import { HeatmapDemo } from './HeatmapDemo';
+import { NotificationHotspotDemo } from './NotificationHotspotDemo';
 import { FlameGraphDemo } from './FlameGraphDemo';
 import { PageNavigationDemo } from './PageNavigationDemo';
 import { HomeButtonDemo } from './HomeButtonDemo';
@@ -171,6 +172,8 @@ function ComponentPreview({
   };
 
   switch (name) {
+    case "NotificationHotspot":
+      return <NotificationHotspotDemo expanded={expanded} />;
     case "BreathingIndicator":
       return <BreathingIndicatorDemo expanded={expanded} />;
     case "DownloadButton":
