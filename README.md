@@ -25,13 +25,79 @@ npm run dev
 
 | 分类 | 组件 |
 | --- | --- |
-| 通用 UI · 20 | NotificationHotspot、Button、DownloadButton、HomeButton、Input、DatePicker、Textarea、Switch、Badge、Card、StackedCards、Separator、Dialog、StackedDrawer、Tabs、Slider、ScrollArea、PageNavigation、Pagination、Carousel |
-| 视觉动效 · 5 | SpotlightCard、Reveal、AnimatedNumber、BreathingIndicator、AIOrb |
+| 通用 UI · 22 | SegmentedControl、EmptyState、NotificationHotspot、Button、DownloadButton、HomeButton、Input、DatePicker、Textarea、Switch、Badge、Card、StackedCards、Separator、Dialog、StackedDrawer、Tabs、Slider、ScrollArea、PageNavigation、Pagination、Carousel |
+| 视觉动效 · 7 | ProgressRing、SpotlightCard、Reveal、AnimatedNumber、BreathingIndicator、AIOrb、ArtText |
 | 业务组件 · 5 | DataTable、FilterBar、Leaderboard、Heatmap、FlameGraph |
 
 Dialog 和 Tabs 使用 Radix Primitives 提供焦点管理与键盘交互。输入组件支持标签、错误提示、原生表单属性与 ref。动效尊重 `prefers-reduced-motion`；DataTable 提供客户端搜索、排序、分页与空状态，适合小型数据集。
 
 全部组件及 Props / Column / Option 类型由主入口导出。打开工作台的组件详情可查看当前 API；完整声明随包发布。
+
+### 分段选择器、进度环与空状态
+
+`SegmentedControl` 用 `radiogroup` / `radio` 语义表达互斥视图，支持受控值、禁用选项和方向键循环切换；`ProgressRing` 支持确定与不确定进度，数值限制在 `0–max` 并提供对应的 ARIA 属性；`EmptyState` 组合标题、说明、图标和操作，适合直接放进列表或搜索结果面板。
+
+```tsx
+import { EmptyState, ProgressRing, SegmentedControl } from '@ray-ui/react';
+import '@ray-ui/react/styles.css';
+
+<SegmentedControl aria-label="工作台视图" defaultValue="overview" options={[
+  { value: 'overview', label: '概览' },
+  { value: 'activity', label: '活动' },
+]} />
+<ProgressRing value={68} label="上传进度" />
+<EmptyState title="没有匹配的灵感" description="换个关键词试试。" />
+```
+
+### 艺术字设计专区
+
+工作台 `#typography` 默认展示手作线条字动画 **生长**。九笔均为独立绘制的矢量路径，带不规则弯曲、笔压粗细和收锋；揭示路径沿落笔方向逐笔前进，长短笔画使用不同绘制时长，起笔和收笔平缓过渡。字稿不依赖字体文件，也不使用渐变材质。支持播放 / 暂停、重画、进度拖动和三档速度。系统开启减少动态效果时默认显示完成字稿，保留手动进度查看。
+
+`StrokeLettering` 是受控 SVG 组件，`progress` 为 0–1；无效数值按完成处理，越界数值截断。`artwork` 包含 `label`、`viewBox` 和 `strokes`，每笔含 `path` 中心线、可选 `outline` 压感轮廓、`width` 线宽 / 揭示宽度与 `duration` 相对时长。`color` 默认 `currentColor`，支持原生 SVG 属性及 ref；组件自身不运行播放时钟，演示的时间轴通过 `requestAnimationFrame` 驱动，暂停、卸载和离屏时不会推进字稿。提供图像语义与字稿名称，装饰路径不重复播报。各实例的蒙版标识独立。
+
+```tsx
+import { StrokeLettering, growthLettering } from '@ray-ui/react';
+import '@ray-ui/react/styles.css';
+
+// 由外部动画时间轴将 progress 从 0 推进到 1。
+<StrokeLettering artwork={growthLettering} progress={0.65} color="#343c36" />
+```
+
+`growthLettering` 是固定的「生长」手作字稿，不提供任意文字自动转手绘。新文字需要设计相应笔画后传入 `artwork`。`LetteringArtwork`、`LetteringStroke` 和 `StrokeLetteringProps` 类型从主入口导出。编辑区复制的是当前进度的组件画面代码。
+
+#### 保留的字体材质实验
+
+月白银与此前三款融合字效收纳在默认折叠的「早期材质实验」中，保留文字编辑、配色、代码复制与原有 API。下列 `ArtText` 配置仅适用于这些字体材质实验。
+
+| 字效 | variant | 设计 / 来源 |
+| --- | --- | --- |
+| 月白银 | `moon-silver`（默认） | 独立银面设计，Noto Serif SC 600 字重 |
+| 幻金流焰 | `radiant-alloy` | 流光棱镜 × 鎏金液铬 × 焰色霓虹 |
+| 墨版长影 | `ink-relief` | 复古长影 × 墨韵衬线 × 网点压印 |
+| 像素糖影 | `sugar-echo` | 空心回响 × 故障像素 × 糖纸模板 |
+
+幻金流焰将渐变与棱镜色彩、液态铬与金箔纹理、霓虹与余烬柔光融合在同一金属字面。墨版长影使用厚实墨字、压印网点和复古长影。像素糖影保留糖果高光与模板切口，叠加像素故障色带和空心轮廓回声。
+
+```tsx
+import { ArtText } from '@ray-ui/react';
+import '@ray-ui/react/styles.css';
+
+<h1 style={{ background: '#1a2124', padding: 32 }}>
+  <ArtText variant="moon-silver" fontSize="clamp(32px, 6vw, 96px)" animated>
+    月色入字
+  </ArtText>
+</h1>
+<ArtText variant="ink-relief">墨有回声</ArtText>
+<ArtText variant="sugar-echo">Sweet Echo</ArtText>
+```
+
+`ArtText`、`ArtTextProps`、`ArtTextVariant` 从主入口导出。当前有以上 4 个 variant，默认值改为 `moon-silver`；需要保持旧默认外观时请显式传入 `variant="radiant-alloy"`。此前三款仍完整保留 9 个中间来源与 18 个原始来源；月白银不参与融合来源统计。
+
+编辑区支持文字（输入上限 40 个 UTF-16 单元）、32–144px 字号、字距、主辅色、浅色 / 深色 / 网格画布、动画开关、恢复默认、实时 React 代码与复制失败后的手动复制。切换字效保留当前文字、字号和字距，并应用对应配色及画布。`children` 为字符串，组件本身不限制长度，保留换行并自动折行；使用真实 DOM 文字，无图片、Canvas 或新增依赖。标题语义由外层 `h1` / `h2` 提供。
+
+`fontSize` 默认继承，`letterSpacing` 默认随字效（月白银为 `0.08em`）；数字单位为 px，也接受 `em`、`clamp()` 等 CSS 字符串。四款均支持 `color` / `secondaryColor`，月白银分别用于银面亮色和暗部。`animated` 默认为 false，`moon-silver` 支持缓慢往返的柔光，`radiant-alloy` 支持缓慢的金属折光；另外两款保持静态。动画遵循 `prefers-reduced-motion`。所有重复文字装饰层均设置 `aria-hidden` 和 `user-select: none`，强制颜色模式下隐藏装饰层并恢复纯色文字。
+
+原生 span 属性与 ref 可透传，`style` 优先，可覆盖字体、字重和 `--ray-art-color` / `--ray-art-secondary`。画布背景是展示设置，不包含在编辑器复制的组件代码中。月白银与幻金流焰建议使用深色背景；另外两款适合浅色画布。月白银优先使用 Noto Serif SC，字重 600，回退至宋体；此前三款使用 Noto Sans SC，字重 900，回退至微软雅黑、苹方和系统无衬线字体。不打包字体文件，不同系统字形会有差异。工作台 `#component/ArtText` 提供 API 和紧凑演示。
 
 ### 分页
 

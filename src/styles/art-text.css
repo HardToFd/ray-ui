@@ -1,0 +1,188 @@
+.ray-art-text {
+  display: inline-grid;
+  position: relative;
+  isolation: isolate;
+  max-width: 100%;
+  font-family: 'Noto Sans SC', 'Microsoft YaHei', 'PingFang SC', sans-serif;
+  font-size: inherit;
+  font-weight: 900;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: -.055em;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  vertical-align: baseline;
+  color: var(--ray-art-color, var(--ray-text, #292925));
+}
+.ray-art-text__ink, .ray-art-text__layer { grid-area: 1 / 1; min-width: 0; max-width: 100%; }
+.ray-art-text__ink { z-index: 2; }
+.ray-art-text__layer { pointer-events: none; user-select: none; }
+
+/* One satin-silver surface, with a shallow bevel that follows the letterform. */
+.ray-art-text--moon-silver {
+  --ray-art-color: #f2eee7;
+  --ray-art-secondary: #8996a5;
+  font-family: 'Noto Serif SC', 'Songti SC', 'STSong', 'SimSun', serif;
+  font-weight: 600;
+  letter-spacing: .08em;
+  line-height: 1.45;
+  padding: .03em .06em .08em;
+  color: var(--ray-art-color);
+}
+.ray-art-text--moon-silver > .ray-art-text__ink {
+  filter: drop-shadow(0 -.006em .003em #ffffff6b)
+    drop-shadow(0 .009em .005em #10182180);
+}
+.ray-art-text--moon-silver > .ray-art-text__layer--silver-edge {
+  z-index: 1;
+  color: color-mix(in srgb, var(--ray-art-secondary) 68%, #29313a);
+  transform: translateY(.014em);
+  text-shadow: 0 .012em 0 color-mix(in srgb, var(--ray-art-secondary) 45%, #202832),
+    0 .035em .025em #080b106b, 0 .11em .12em #080b102e;
+}
+
+/* Prism color and foil grain share a chrome reflection, surrounded by a warm glow. */
+.ray-art-text--radiant-alloy {
+  --ray-art-color: #ebd1ac;
+  --ray-art-secondary: #c07d9f;
+  color: var(--ray-art-color);
+  padding-block: .07em;
+  filter: drop-shadow(0 .02em .01em #0008);
+}
+.ray-art-text--radiant-alloy > .ray-art-text__ink {
+  filter: drop-shadow(0 0 .018em color-mix(in srgb, var(--ray-art-color) 65%, transparent))
+    drop-shadow(0 -.025em .12em color-mix(in srgb, var(--ray-art-secondary) 40%, transparent));
+}
+
+/* Solid ink and pressed halftone sit over one continuous registration shadow. */
+.ray-art-text--ink-relief {
+  --ray-art-color: #455448;
+  --ray-art-secondary: #b6a384;
+  color: var(--ray-art-color);
+  letter-spacing: .015em;
+  padding: 0 .26em .24em .08em;
+}
+.ray-art-text--ink-relief > .ray-art-text__ink {
+  -webkit-text-stroke: .006em var(--ray-art-color);
+  filter: drop-shadow(-.012em -.012em .006em #202c2659)
+    drop-shadow(.012em .018em .006em #fff8e8);
+}
+.ray-art-text--ink-relief > .ray-art-text__layer--depth {
+  z-index: 0;
+  color: var(--ray-art-secondary);
+  text-shadow: 0.013em 0.013em 0 var(--ray-art-secondary),
+    0.026em 0.026em 0 var(--ray-art-secondary),
+    0.039em 0.039em 0 var(--ray-art-secondary),
+    0.052em 0.052em 0 var(--ray-art-secondary),
+    0.065em 0.065em 0 var(--ray-art-secondary),
+    0.078em 0.078em 0 var(--ray-art-secondary),
+    0.091em 0.091em 0 var(--ray-art-secondary),
+    0.104em 0.104em 0 var(--ray-art-secondary),
+    0.117em 0.117em 0 var(--ray-art-secondary),
+    0.130em 0.130em 0 var(--ray-art-secondary),
+    0.143em 0.143em 0 var(--ray-art-secondary),
+    0.156em 0.156em 0 var(--ray-art-secondary),
+    0.169em 0.169em 0 var(--ray-art-secondary),
+    0.182em 0.182em 0 var(--ray-art-secondary),
+    0.195em 0.195em 0 var(--ray-art-secondary),
+    0.208em 0.208em 0 var(--ray-art-secondary);
+  opacity: .62;
+}
+
+/* Glossy stencil cuts, pixel color slices and two hollow echoes remain distinct. */
+.ray-art-text--sugar-echo {
+  --ray-art-color: #f1c5df;
+  --ray-art-secondary: #986197;
+  color: var(--ray-art-color);
+  padding: 0 .23em .23em .08em;
+}
+.ray-art-text--sugar-echo > .ray-art-text__ink {
+  -webkit-text-stroke: .006em var(--ray-art-secondary);
+  mask-image: linear-gradient(to bottom, #000 0 37%, transparent 37% 42%, #000 42% 69%, transparent 69% 74%, #000 74% 100%);
+  mask-size: 100% 1.2em;
+  filter: drop-shadow(0 .016em 0 var(--ray-art-secondary))
+    drop-shadow(0 .025em 0 var(--ray-art-secondary));
+}
+.ray-art-text--sugar-echo > .ray-art-text__layer--a,
+.ray-art-text--sugar-echo > .ray-art-text__layer--b {
+  color: transparent;
+  -webkit-text-stroke: max(1px, .009em) var(--ray-art-secondary);
+}
+.ray-art-text--sugar-echo > .ray-art-text__layer--a { z-index: 1; transform: translate(.09em, .09em); opacity: .6; }
+.ray-art-text--sugar-echo > .ray-art-text__layer--b { z-index: 0; transform: translate(.20em, .20em); opacity: .3; }
+.ray-art-text--sugar-echo > .ray-art-text__layer--signal {
+  z-index: 3;
+  color: var(--ray-art-secondary);
+  transform: translateX(.04em);
+  clip-path: polygon(0 28%, 100% 28%, 100% 36%, 0 36%, 0 62%, 100% 62%, 100% 69%, 0 69%);
+  mask-image: linear-gradient(to right, #000 72%, transparent 72%), linear-gradient(to bottom, #000 72%, transparent 72%);
+  mask-size: .06em .06em;
+  mask-composite: intersect;
+}
+
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .ray-art-text--moon-silver > .ray-art-text__ink,
+  .ray-art-text--radiant-alloy > .ray-art-text__ink,
+  .ray-art-text--ink-relief > .ray-art-text__ink,
+  .ray-art-text--sugar-echo > .ray-art-text__ink {
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+  .ray-art-text--moon-silver > .ray-art-text__ink {
+    background-image: linear-gradient(112deg, transparent 28%, #ffffff08 39%, #ffffff80 49%, #ffffff08 59%, transparent 70%),
+      linear-gradient(174deg, var(--ray-art-color) 8%,
+        color-mix(in srgb, var(--ray-art-color) 55%, var(--ray-art-secondary)) 29%,
+        var(--ray-art-color) 43%, #ffffff 48%,
+        color-mix(in srgb, var(--ray-art-secondary) 83%, var(--ray-art-color)) 54%,
+        color-mix(in srgb, var(--ray-art-color) 80%, var(--ray-art-secondary)) 73%,
+        var(--ray-art-color) 91%);
+    background-size: 240% 100%, 100% 100%;
+    background-position: 60% 50%, 0 0;
+  }
+  .ray-art-text--moon-silver[data-animated] > .ray-art-text__ink { animation: ray-art-silver-light 12s ease-in-out infinite alternate; }
+  .ray-art-text--radiant-alloy > .ray-art-text__ink {
+    background-image: repeating-linear-gradient(120deg, #ffffff29 0 1px, transparent 1px 3px),
+      linear-gradient(115deg, #9bdccb20 0 18%, #9bdccba3 18.2% 38%, var(--ray-art-secondary) 38.2% 59%, #f7d9a980 59.2% 79%, #b5c6f15c 79.2%),
+      linear-gradient(178deg, var(--ray-art-color) 9%, #8f7b6e 28%, #faf2e0 43%, #ffffff 47%, #383744 50%, var(--ray-art-secondary) 59%, var(--ray-art-color) 79%, #a08b75 98%);
+    background-size: 100% 100%, 160% 100%, 100% 140%;
+    background-blend-mode: soft-light, color, normal;
+  }
+  .ray-art-text--ink-relief > .ray-art-text__ink {
+    background-image: radial-gradient(circle, color-mix(in srgb, var(--ray-art-secondary) 65%, transparent) 23%, transparent 30%),
+      repeating-linear-gradient(174deg, #ffffff26 0 1px, transparent 1px 5px),
+      linear-gradient(115deg, var(--ray-art-color) 12%, color-mix(in srgb, var(--ray-art-color) 65%, var(--ray-art-secondary)) 40%, var(--ray-art-color) 61%, var(--ray-art-secondary) 96%);
+    background-size: .075em .075em, 100% 100%, 100% 100%;
+  }
+  .ray-art-text--sugar-echo > .ray-art-text__ink {
+    background-image: linear-gradient(to bottom, #fff9fe 0, var(--ray-art-color) 25%, #fff1fb 34%, var(--ray-art-color) 49%, var(--ray-art-secondary) 94%);
+    background-size: 100% 1.2em;
+  }
+  .ray-art-text--radiant-alloy[data-animated] > .ray-art-text__ink { animation: ray-art-radiance 14s ease-in-out infinite alternate; }
+}
+@keyframes ray-art-silver-light {
+  from { background-position: 100% 50%, 0 0; }
+  to { background-position: 0% 50%, 0 0; }
+}
+@keyframes ray-art-radiance {
+  from { background-position: 0 0, 0% 50%, 50% 0%; }
+  to { background-position: 0 0, 100% 50%, 50% 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ray-art-text[data-animated] > .ray-art-text__ink { animation: none; }
+}
+@media (forced-colors: active) {
+  .ray-art-text, .ray-art-text > .ray-art-text__ink {
+    color: CanvasText;
+    -webkit-text-fill-color: CanvasText;
+    -webkit-text-stroke: 0;
+    background: none;
+    text-shadow: none;
+    filter: none;
+    mask-image: none;
+    clip-path: none;
+  }
+  .ray-art-text > .ray-art-text__layer { display: none; }
+  .ray-art-text[data-animated] > .ray-art-text__ink { animation: none; }
+}

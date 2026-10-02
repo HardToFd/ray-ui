@@ -17,6 +17,49 @@ export const categories = [
 
 export const catalog: ComponentDoc[] = [
   {
+    name: "SegmentedControl",
+    chinese: "分段选择器",
+    category: "ui",
+    description: "在同一组互斥视图之间快速切换，保留明确的键盘焦点。",
+    code: `import { SegmentedControl } from '@ray-ui/react';\n\n<SegmentedControl\n  aria-label="工作台视图"\n  options={[\n    { value: 'overview', label: '概览' },\n    { value: 'activity', label: '活动' },\n    { value: 'settings', label: '设置' },\n  ]}\n  defaultValue="overview"\n  onValueChange={(value) => setView(value)}\n/>`,
+    props: [
+      ["options", "{ value, label, disabled? }[]；至少提供一个可用选项，value 需要唯一", "必填"],
+      ["value / defaultValue", "受控值 / 初始值；没有可用初始值时自动选择第一个未禁用选项", "— / 首个可用"],
+      ["onValueChange", "(value: string) => void；点击或方向键切换时调用", "—"],
+      ["size / fullWidth", "sm | md | lg / 是否让选项平分容器宽度", "md / false"],
+      ["disabled / name", "禁用整组 / data-name 标识；单项可在 options 中单独禁用", "false / —"],
+      ["键盘与语义", "radiogroup + radio；← → / ↑ ↓ 循环切换，Home / End 跳到首尾，Tab 只进入当前选项", "—"],
+    ],
+  },
+  {
+    name: "ProgressRing",
+    chinese: "进度环",
+    category: "motion",
+    description: "用一圈轻量的轨迹表达上传、同步或后台任务的完成度。",
+    code: `import { ProgressRing } from '@ray-ui/react';\n\n<ProgressRing value={68} label="上传进度" />\n<ProgressRing value={42} max={60} tone="success" size="sm" />\n<ProgressRing value={null} label="分析中" tone="warning" />`,
+    props: [
+      ["value / max", "当前值 / 上限；value={null} 显示不确定进度，非有限值按 0，数值会限制在 0–max", "0 / 100"],
+      ["size / strokeWidth", "sm 52px | md 96px | lg 148px | number 24–512px / SVG 轨迹宽度", "md / 8"],
+      ["label / showValue", "进度环的可访问名称 / 是否显示中心文本", "进度 / true"],
+      ["formatValue", "(value, max) => string，自定义中心文本格式", "百分比"],
+      ["tone", "accent | success | warning | danger", "accent"],
+      ["语义与动效", "role=progressbar；确定进度提供 aria-valuenow，不确定进度遵循减少动态效果设置", "—"],
+    ],
+  },
+  {
+    name: "EmptyState",
+    chinese: "空状态面板",
+    category: "ui",
+    description: "给没有内容的页面一个清晰的下一步，也让空白保留呼吸感。",
+    code: `import { EmptyState, Button } from '@ray-ui/react';\n\n<EmptyState\n  title="没有匹配的灵感"\n  description="换个关键词试试，或者清除筛选条件。"\n  action={<Button>清除筛选</Button>}\n/>`,
+    props: [
+      ["title", "ReactNode，作为面板标题并关联区域语义", "必填"],
+      ["description / icon / action", "补充说明 / 装饰图标（对读屏隐藏）/ 下一步操作节点", "—"],
+      ["size / tone", "sm | md / neutral | accent", "md / neutral"],
+      ["className / style / ref", "原生 div 属性与 ref；适合放在列表、搜索结果或工作台面板中", "—"],
+    ],
+  },
+  {
     name: "NotificationHotspot",
     chinese: "通知热点",
     category: "ui",
@@ -33,7 +76,25 @@ export const catalog: ComponentDoc[] = [
       ["className / style / ref", "原生 span 属性；--ray-hotspot-color 覆盖颜色；热点不拦截点击，子控件需自行提供可访问名称，外层应留出溢出空间", "—"],
     ],
   },
-
+  {
+    name: "ArtText",
+    chinese: "艺术字",
+    category: "motion",
+    description: "手作线条动画：独立笔画、轻重收锋与逐笔成字，支持进度时间轴。",
+    code: `import { StrokeLettering, growthLettering } from '@ray-ui/react';\nimport '@ray-ui/react/styles.css';\n\n// 将 progress 从 0 推进到 1，逐笔绘制「生长」。\n<StrokeLettering artwork={growthLettering} progress={0.65} color="#343c36" />\n\n// artwork 接受自定义 SVG 笔画，不依赖字体文件。\n// 原有字体材质仍使用 ArtText 组件。`,
+    props: [
+      ["StrokeLettering.artwork", "{ label, viewBox, strokes }；笔画含 path 中心线、可选 outline 压感轮廓、width 揭示宽度、duration 相对时长；growthLettering 为手绘「生长」字稿", "必填"],
+      ["StrokeLettering.progress / color", "0–1 绘制进度 / 笔触颜色；进度由外部时间轴驱动，组件不自动播放；非有限进度按完成处理", "1 / currentColor"],
+      ["StrokeLettering SVG 属性", "支持 className、style、ref 与 aria-label；默认以 artwork.label 提供可访问名称；以下为保留的 ArtText API", "—"],
+      ["children", "string，保留原始文字与换行；长文字自动换行，可选择、复制与读屏", "必填"],
+      ["variant", "moon-silver 月白银 | radiant-alloy 幻金流焰 | ink-relief 墨版长影 | sugar-echo 像素糖影", "moon-silver"],
+      ["fontSize / letterSpacing", "number（px）| CSS 长度字符串；支持 clamp() 与 em", "继承字号 / 各字效默认字距"],
+      ["color / secondaryColor", "CSS 颜色；月白银为银面亮色与暗部，其余字效用于折光、阴影或轮廓", "各字效默认配色"],
+      ["animated", "boolean，moon-silver 与 radiant-alloy 支持柔光移动；遵循系统减少动态效果", "false"],
+      ["className / style / ref", "原生 span 属性；style 优先，可覆盖字体、字重和 CSS 变量 --ray-art-color / --ray-art-secondary", "—"],
+      ["语义与背景", "真实 span 文字，标题请包在 h1 / h2 中；装饰层对读屏隐藏且不可选中；月白银与幻金流焰建议深色背景；月白银使用本机 Noto Serif SC 600 字重并有宋体回退", "—"],
+    ],
+  },
   {
     name: "Pagination",
     chinese: "分页",

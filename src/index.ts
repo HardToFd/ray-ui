@@ -1,6 +1,11 @@
 "use client";
 
 export * from './components/primitives';
+export * from './components/segmented-control';
+export * from './components/progress-ring';
+export * from './components/empty-state';
+export * from './components/art-text';
+export * from './components/stroke-lettering';
 export * from './components/notification-hotspot';
 export * from './components/download-button';
 export * from './components/breathing-indicator';

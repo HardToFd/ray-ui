@@ -1,0 +1,12 @@
+.ray-segmented-control { display: inline-flex; align-items: stretch; gap: 3px; max-width: 100%; padding: 3px; border: 1px solid var(--ray-border); border-radius: 12px; background: var(--ray-surface-raised); color: var(--ray-muted); font: inherit; }
+.ray-segmented-control--full { display: flex; width: 100%; }
+.ray-segmented-control__option { appearance: none; min-width: 72px; min-height: 34px; padding: 0 14px; border: 1px solid transparent; border-radius: 9px; background: transparent; color: inherit; font: inherit; font-size: 12px; cursor: pointer; transition: color 150ms ease, background-color 150ms ease, box-shadow 150ms ease; }
+.ray-segmented-control--full .ray-segmented-control__option { flex: 1 1 0; }
+.ray-segmented-control__option:hover:not(:disabled) { color: var(--ray-text); }
+.ray-segmented-control__option[aria-checked='true'] { border-color: var(--ray-border); background: var(--ray-surface); color: var(--ray-text); box-shadow: 0 2px 8px #0000000d; }
+.ray-segmented-control__option:disabled { cursor: default; opacity: .4; }
+.ray-segmented-control__option:focus-visible { outline: 2px solid var(--ray-ring); outline-offset: 2px; }
+.ray-segmented-control--sm .ray-segmented-control__option { min-height: 28px; min-width: 58px; padding: 0 10px; font-size: 11px; }
+.ray-segmented-control--lg .ray-segmented-control__option { min-height: 42px; min-width: 88px; padding: 0 18px; font-size: 13px; }
+@media (prefers-reduced-motion: reduce) { .ray-segmented-control__option { transition: none; } }
+@media (forced-colors: active) { .ray-segmented-control { border-color: ButtonText; } .ray-segmented-control__option[aria-checked='true'] { border-color: Highlight; outline: 1px solid Highlight; } }
