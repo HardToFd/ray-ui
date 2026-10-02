@@ -1,0 +1,4 @@
+.ray-stroke-lettering { display: block; width: 100%; height: auto; overflow: visible; }
+@media (forced-colors: active) {
+  .ray-stroke-lettering { color: CanvasText !important; forced-color-adjust: none; }
+}

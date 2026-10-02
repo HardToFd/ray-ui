@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { DatePickerDemo } from './DatePickerDemo';
+import { ArtTextDemo, TypographyStudio } from './TypographyStudio';
+import { artTextFinishes } from './art-text-presets';
 import { StackedDrawerDemo } from './StackedDrawerDemo';
 import { StackedCardsDemo } from './StackedCardsDemo';
 import { CarouselDemo } from './CarouselDemo';
@@ -36,6 +38,7 @@ import {
   SlidersHorizontal,
   Sparkles,
   Sun,
+  Type,
   X,
   Zap,
 } from "lucide-react";
@@ -64,7 +67,7 @@ import {
   type ComponentDoc,
 } from "./catalog";
 
-type Page = "components" | "start" | "tokens";
+type Page = "components" | "start" | "tokens" | "typography";
 const categoryIcons = {
   all: Grid2X2,
   ui: Layers,
@@ -174,6 +177,8 @@ function ComponentPreview({
   switch (name) {
     case "NotificationHotspot":
       return <NotificationHotspotDemo expanded={expanded} />;
+    case "ArtText":
+      return <ArtTextDemo expanded={expanded} />;
     case "BreathingIndicator":
       return <BreathingIndicatorDemo expanded={expanded} />;
     case "DownloadButton":
@@ -756,7 +761,7 @@ function readLocation(): {
   selected: string | null;
 } {
   const hash = window.location.hash.slice(1);
-  if (hash === "start" || hash === "tokens")
+  if (hash === "start" || hash === "tokens" || hash === "typography")
     return { page: hash, category: "all", selected: null };
   const [section, value] = hash.split("/");
   if (section === "component" && catalog.some((item) => item.name === value))
@@ -862,6 +867,7 @@ export function App() {
   let content: ReactNode;
   if (page === "start") content = <QuickStart />;
   else if (page === "tokens") content = <Tokens />;
+  else if (page === "typography") content = <TypographyStudio key="hand-drawn-study" />;
   else if (currentDoc)
     content = (
       <div className="detail-page">
@@ -999,6 +1005,11 @@ export function App() {
             从小处开始，慢慢生长 <span>↗</span>
           </span>
         </div>
+        <button type="button" className="type-entry" onClick={() => navigate("typography")}>
+          <span aria-hidden="true">Aa</span>
+          <span><strong>艺术字设计专区</strong><small>手作字稿「生长」—— 看线条一笔一画，慢慢成字。</small></span>
+          <ArrowUpRight size={20} />
+        </button>
         <section className="catalog-section">
           <div className="catalog-heading">
             <h2>
@@ -1130,6 +1141,13 @@ export function App() {
             <Palette size={17} />
             设计变量
           </button>
+          <button
+            className={`nav-item ${page === "typography" ? "active" : ""}`}
+            aria-current={page === "typography" ? "page" : undefined}
+            onClick={() => navigate("typography")}
+          >
+            <Type size={17} />艺术字设计<span className="nav-count">{artTextFinishes.length + 1}</span>
+          </button>
           <div className="nav-divider" />
           <span className="nav-section-label">组件 COMPONENTS</span>
           {categories
@@ -1208,6 +1226,8 @@ export function App() {
                   ? "快速开始"
                   : page === "tokens"
                     ? "设计变量"
+                    : page === "typography"
+                      ? "艺术字设计专区"
                     : "组件总览")}
             </strong>
           </div>

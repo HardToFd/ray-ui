@@ -33,7 +33,25 @@ export const catalog: ComponentDoc[] = [
       ["className / style / ref", "原生 span 属性；--ray-hotspot-color 覆盖颜色；热点不拦截点击，子控件需自行提供可访问名称，外层应留出溢出空间", "—"],
     ],
   },
-
+  {
+    name: "ArtText",
+    chinese: "艺术字",
+    category: "motion",
+    description: "手作线条动画：独立笔画、轻重收锋与逐笔成字，支持进度时间轴。",
+    code: `import { StrokeLettering, growthLettering } from '@ray-ui/react';\nimport '@ray-ui/react/styles.css';\n\n// 将 progress 从 0 推进到 1，逐笔绘制「生长」。\n<StrokeLettering artwork={growthLettering} progress={0.65} color="#343c36" />\n\n// artwork 接受自定义 SVG 笔画，不依赖字体文件。\n// 原有字体材质仍使用 ArtText 组件。`,
+    props: [
+      ["StrokeLettering.artwork", "{ label, viewBox, strokes }；笔画含 path 中心线、可选 outline 压感轮廓、width 揭示宽度、duration 相对时长；growthLettering 为手绘「生长」字稿", "必填"],
+      ["StrokeLettering.progress / color", "0–1 绘制进度 / 笔触颜色；进度由外部时间轴驱动，组件不自动播放；非有限进度按完成处理", "1 / currentColor"],
+      ["StrokeLettering SVG 属性", "支持 className、style、ref 与 aria-label；默认以 artwork.label 提供可访问名称；以下为保留的 ArtText API", "—"],
+      ["children", "string，保留原始文字与换行；长文字自动换行，可选择、复制与读屏", "必填"],
+      ["variant", "moon-silver 月白银 | radiant-alloy 幻金流焰 | ink-relief 墨版长影 | sugar-echo 像素糖影", "moon-silver"],
+      ["fontSize / letterSpacing", "number（px）| CSS 长度字符串；支持 clamp() 与 em", "继承字号 / 各字效默认字距"],
+      ["color / secondaryColor", "CSS 颜色；月白银为银面亮色与暗部，其余字效用于折光、阴影或轮廓", "各字效默认配色"],
+      ["animated", "boolean，moon-silver 与 radiant-alloy 支持柔光移动；遵循系统减少动态效果", "false"],
+      ["className / style / ref", "原生 span 属性；style 优先，可覆盖字体、字重和 CSS 变量 --ray-art-color / --ray-art-secondary", "—"],
+      ["语义与背景", "真实 span 文字，标题请包在 h1 / h2 中；装饰层对读屏隐藏且不可选中；月白银与幻金流焰建议深色背景；月白银使用本机 Noto Serif SC 600 字重并有宋体回退", "—"],
+    ],
+  },
   {
     name: "Pagination",
     chinese: "分页",
