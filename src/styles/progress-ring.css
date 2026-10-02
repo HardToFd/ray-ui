@@ -1,15 +1,20 @@
-.ray-progress-ring { --ray-progress-size: 96px; --ray-progress-color: var(--ray-accent); position: relative; display: inline-grid; place-items: center; width: var(--ray-progress-size); height: var(--ray-progress-size); color: var(--ray-text); vertical-align: middle; }
+.ray-progress-ring { --ray-progress-size: 96px; --ray-progress-color: var(--ray-accent); position: relative; display: inline-grid; place-items: center; width: var(--ray-progress-size); height: var(--ray-progress-size); color: var(--ray-text); vertical-align: middle; isolation: isolate; }
 .ray-progress-ring[data-size='sm'] { --ray-progress-size: 52px; }
 .ray-progress-ring[data-size='lg'] { --ray-progress-size: 148px; }
 .ray-progress-ring[data-tone='success'] { --ray-progress-color: #3f8f62; }
 .ray-progress-ring[data-tone='warning'] { --ray-progress-color: #c77b2d; }
 .ray-progress-ring[data-tone='danger'] { --ray-progress-color: #c45445; }
-.ray-progress-ring__svg { display: block; width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible; }
+.ray-progress-ring::before { content: ''; position: absolute; inset: 3px; z-index: -1; border: 1px solid color-mix(in srgb, var(--ray-progress-color) 24%, var(--ray-border)); border-radius: 50%; opacity: .7; }
+.ray-progress-ring::after { content: ''; position: absolute; inset: 16%; z-index: -1; border-radius: 50%; box-shadow: 0 0 24px color-mix(in srgb, var(--ray-progress-color) 23%, transparent); opacity: .38; }
+.ray-progress-ring__svg { position: relative; z-index: 1; display: block; width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible; }
 .ray-progress-ring__track, .ray-progress-ring__bar { fill: none; stroke-linecap: round; }
+.ray-progress-ring__inner { fill: var(--ray-surface); stroke: color-mix(in srgb, var(--ray-progress-color) 10%, var(--ray-border)); stroke-width: 1; }
+.ray-progress-ring__ticks { fill: none; stroke: color-mix(in srgb, var(--ray-progress-color) 28%, var(--ray-muted)); stroke-width: 1.2; stroke-linecap: round; opacity: .6; }
 .ray-progress-ring__track { stroke: var(--ray-surface-raised); }
-.ray-progress-ring__bar { stroke: var(--ray-progress-color); transition: stroke-dashoffset 360ms cubic-bezier(.22,.61,.36,1); }
-.ray-progress-ring__value { position: absolute; inset: 0; display: grid; place-items: center; padding: 8px; color: var(--ray-text); font-size: clamp(10px, 18%, 16px); font-variant-numeric: tabular-nums; text-align: center; }
+.ray-progress-ring__bar { stroke: var(--ray-progress-stroke, var(--ray-progress-color)); transition: stroke-dashoffset 360ms cubic-bezier(.22,.61,.36,1); }
+.ray-progress-ring__value { position: absolute; z-index: 2; inset: 0; display: grid; place-items: center; padding: 8px; color: var(--ray-text); font-size: clamp(10px, 18%, 16px); font-variant-numeric: tabular-nums; text-align: center; }
 .ray-progress-ring[data-indeterminate='true'] .ray-progress-ring__bar { stroke-dasharray: 24 76; animation: ray-progress-ring-spin 1.2s linear infinite; }
 @keyframes ray-progress-ring-spin { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -100; } }
 @media (prefers-reduced-motion: reduce) { .ray-progress-ring__bar { transition: none; } .ray-progress-ring[data-indeterminate='true'] .ray-progress-ring__bar { animation: none; stroke-dasharray: 38 62; stroke-dashoffset: 0; } }
-@media (forced-colors: active) { .ray-progress-ring__track { stroke: CanvasText; opacity: .25; } .ray-progress-ring__bar { stroke: Highlight; } }
+@media (forced-colors: active) { .ray-progress-ring__track { stroke: CanvasText; opacity: .25; } .ray-progress-ring__bar { stroke: Highlight !important; } .ray-progress-ring__inner, .ray-progress-ring__ticks { stroke: CanvasText; } }
+@media (max-width: 420px) { .ray-progress-ring__ticks { display: none; } }
