@@ -34,7 +34,7 @@ export const ProgressRing = forwardRef<HTMLDivElement, ProgressRingProps>(
         </defs>
         <circle className="ray-progress-ring__inner" cx="50" cy="50" r={Math.max(28, radius - stroke * 1.45)} />
         <g className="ray-progress-ring__ticks">
-          {Array.from({ length: 12 }, (_, index) => <line key={index} x1="50" y1="42" x2="50" y2="44" transform={`rotate(${index * 30} 50 50)`} />)}
+          {Array.from({ length: 12 }, (_, index) => <line key={index} x1="50" y1="4" x2="50" y2="8" transform={`rotate(${index * 30} 50 50)`} />)}
         </g>
         <circle className="ray-progress-ring__track" cx="50" cy="50" r={radius} pathLength="100" strokeWidth={stroke} />
         <circle className="ray-progress-ring__bar" cx="50" cy="50" r={radius} pathLength="100" strokeWidth={stroke} strokeDasharray="100" strokeDashoffset={determinate ? 100 - percent * 100 : undefined} />
