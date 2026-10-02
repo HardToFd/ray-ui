@@ -25,13 +25,29 @@ npm run dev
 
 | 分类 | 组件 |
 | --- | --- |
-| 通用 UI · 20 | NotificationHotspot、Button、DownloadButton、HomeButton、Input、DatePicker、Textarea、Switch、Badge、Card、StackedCards、Separator、Dialog、StackedDrawer、Tabs、Slider、ScrollArea、PageNavigation、Pagination、Carousel |
-| 视觉动效 · 6 | SpotlightCard、Reveal、AnimatedNumber、BreathingIndicator、AIOrb、ArtText |
+| 通用 UI · 22 | SegmentedControl、EmptyState、NotificationHotspot、Button、DownloadButton、HomeButton、Input、DatePicker、Textarea、Switch、Badge、Card、StackedCards、Separator、Dialog、StackedDrawer、Tabs、Slider、ScrollArea、PageNavigation、Pagination、Carousel |
+| 视觉动效 · 7 | ProgressRing、SpotlightCard、Reveal、AnimatedNumber、BreathingIndicator、AIOrb、ArtText |
 | 业务组件 · 5 | DataTable、FilterBar、Leaderboard、Heatmap、FlameGraph |
 
 Dialog 和 Tabs 使用 Radix Primitives 提供焦点管理与键盘交互。输入组件支持标签、错误提示、原生表单属性与 ref。动效尊重 `prefers-reduced-motion`；DataTable 提供客户端搜索、排序、分页与空状态，适合小型数据集。
 
 全部组件及 Props / Column / Option 类型由主入口导出。打开工作台的组件详情可查看当前 API；完整声明随包发布。
+
+### 分段选择器、进度环与空状态
+
+`SegmentedControl` 用 `radiogroup` / `radio` 语义表达互斥视图，支持受控值、禁用选项和方向键循环切换；`ProgressRing` 支持确定与不确定进度，数值限制在 `0–max` 并提供对应的 ARIA 属性；`EmptyState` 组合标题、说明、图标和操作，适合直接放进列表或搜索结果面板。
+
+```tsx
+import { EmptyState, ProgressRing, SegmentedControl } from '@ray-ui/react';
+import '@ray-ui/react/styles.css';
+
+<SegmentedControl aria-label="工作台视图" defaultValue="overview" options={[
+  { value: 'overview', label: '概览' },
+  { value: 'activity', label: '活动' },
+]} />
+<ProgressRing value={68} label="上传进度" />
+<EmptyState title="没有匹配的灵感" description="换个关键词试试。" />
+```
 
 ### 艺术字设计专区
 

@@ -17,6 +17,49 @@ export const categories = [
 
 export const catalog: ComponentDoc[] = [
   {
+    name: "SegmentedControl",
+    chinese: "分段选择器",
+    category: "ui",
+    description: "在同一组互斥视图之间快速切换，保留明确的键盘焦点。",
+    code: `import { SegmentedControl } from '@ray-ui/react';\n\n<SegmentedControl\n  aria-label="工作台视图"\n  options={[\n    { value: 'overview', label: '概览' },\n    { value: 'activity', label: '活动' },\n    { value: 'settings', label: '设置' },\n  ]}\n  defaultValue="overview"\n  onValueChange={(value) => setView(value)}\n/>`,
+    props: [
+      ["options", "{ value, label, disabled? }[]；至少提供一个可用选项，value 需要唯一", "必填"],
+      ["value / defaultValue", "受控值 / 初始值；没有可用初始值时自动选择第一个未禁用选项", "— / 首个可用"],
+      ["onValueChange", "(value: string) => void；点击或方向键切换时调用", "—"],
+      ["size / fullWidth", "sm | md | lg / 是否让选项平分容器宽度", "md / false"],
+      ["disabled / name", "禁用整组 / data-name 标识；单项可在 options 中单独禁用", "false / —"],
+      ["键盘与语义", "radiogroup + radio；← → / ↑ ↓ 循环切换，Home / End 跳到首尾，Tab 只进入当前选项", "—"],
+    ],
+  },
+  {
+    name: "ProgressRing",
+    chinese: "进度环",
+    category: "motion",
+    description: "用一圈轻量的轨迹表达上传、同步或后台任务的完成度。",
+    code: `import { ProgressRing } from '@ray-ui/react';\n\n<ProgressRing value={68} label="上传进度" />\n<ProgressRing value={42} max={60} tone="success" size="sm" />\n<ProgressRing value={null} label="分析中" tone="warning" />`,
+    props: [
+      ["value / max", "当前值 / 上限；value={null} 显示不确定进度，非有限值按 0，数值会限制在 0–max", "0 / 100"],
+      ["size / strokeWidth", "sm 52px | md 96px | lg 148px | number 24–512px / SVG 轨迹宽度", "md / 8"],
+      ["label / showValue", "进度环的可访问名称 / 是否显示中心文本", "进度 / true"],
+      ["formatValue", "(value, max) => string，自定义中心文本格式", "百分比"],
+      ["tone", "accent | success | warning | danger", "accent"],
+      ["语义与动效", "role=progressbar；确定进度提供 aria-valuenow，不确定进度遵循减少动态效果设置", "—"],
+    ],
+  },
+  {
+    name: "EmptyState",
+    chinese: "空状态面板",
+    category: "ui",
+    description: "给没有内容的页面一个清晰的下一步，也让空白保留呼吸感。",
+    code: `import { EmptyState, Button } from '@ray-ui/react';\n\n<EmptyState\n  title="没有匹配的灵感"\n  description="换个关键词试试，或者清除筛选条件。"\n  action={<Button>清除筛选</Button>}\n/>`,
+    props: [
+      ["title", "ReactNode，作为面板标题并关联区域语义", "必填"],
+      ["description / icon / action", "补充说明 / 装饰图标（对读屏隐藏）/ 下一步操作节点", "—"],
+      ["size / tone", "sm | md / neutral | accent", "md / neutral"],
+      ["className / style / ref", "原生 div 属性与 ref；适合放在列表、搜索结果或工作台面板中", "—"],
+    ],
+  },
+  {
     name: "NotificationHotspot",
     chinese: "通知热点",
     category: "ui",

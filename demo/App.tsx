@@ -8,6 +8,9 @@ import { CarouselDemo } from './CarouselDemo';
 import { AIOrbDemo } from './AIOrbDemo';
 import { HeatmapDemo } from './HeatmapDemo';
 import { NotificationHotspotDemo } from './NotificationHotspotDemo';
+import { SegmentedControlDemo } from './SegmentedControlDemo';
+import { ProgressRingDemo } from './ProgressRingDemo';
+import { EmptyStateDemo } from './EmptyStateDemo';
 import { FlameGraphDemo } from './FlameGraphDemo';
 import { PageNavigationDemo } from './PageNavigationDemo';
 import { HomeButtonDemo } from './HomeButtonDemo';
@@ -175,6 +178,12 @@ function ComponentPreview({
   };
 
   switch (name) {
+    case "SegmentedControl":
+      return <SegmentedControlDemo expanded={expanded} />;
+    case "ProgressRing":
+      return <ProgressRingDemo expanded={expanded} />;
+    case "EmptyState":
+      return <EmptyStateDemo expanded={expanded} />;
     case "NotificationHotspot":
       return <NotificationHotspotDemo expanded={expanded} />;
     case "ArtText":
