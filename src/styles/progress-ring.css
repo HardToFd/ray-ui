@@ -10,6 +10,6 @@
 .ray-progress-ring__bar { stroke: var(--ray-progress-color); transition: stroke-dashoffset 360ms cubic-bezier(.22,.61,.36,1); }
 .ray-progress-ring__value { position: absolute; inset: 0; display: grid; place-items: center; padding: 8px; color: var(--ray-text); font-size: clamp(10px, 18%, 16px); font-variant-numeric: tabular-nums; text-align: center; }
 .ray-progress-ring[data-indeterminate='true'] .ray-progress-ring__bar { stroke-dasharray: 24 76; animation: ray-progress-ring-spin 1.2s linear infinite; }
-@keyframes ray-progress-ring-spin { to { transform: rotate(360deg); transform-origin: 50% 50%; } }
-@media (prefers-reduced-motion: reduce) { .ray-progress-ring__bar { transition: none; } .ray-progress-ring[data-indeterminate='true'] .ray-progress-ring__bar { animation: none; stroke-dasharray: 38 62; } }
+@keyframes ray-progress-ring-spin { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -100; } }
+@media (prefers-reduced-motion: reduce) { .ray-progress-ring__bar { transition: none; } .ray-progress-ring[data-indeterminate='true'] .ray-progress-ring__bar { animation: none; stroke-dasharray: 38 62; stroke-dashoffset: 0; } }
 @media (forced-colors: active) { .ray-progress-ring__track { stroke: CanvasText; opacity: .25; } .ray-progress-ring__bar { stroke: Highlight; } }
