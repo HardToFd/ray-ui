@@ -25,13 +25,104 @@ npm run dev
 
 | 分类 | 组件 |
 | --- | --- |
-| 通用 UI · 22 | SegmentedControl、EmptyState、NotificationHotspot、Button、DownloadButton、HomeButton、Input、DatePicker、Textarea、Switch、Badge、Card、StackedCards、Separator、Dialog、StackedDrawer、Tabs、Slider、ScrollArea、PageNavigation、Pagination、Carousel |
+| 通用 UI · 26 | CompareSlider、FileDropzone、CommandPalette、SplitButton、SegmentedControl、EmptyState、NotificationHotspot、Button、DownloadButton、HomeButton、Input、DatePicker、Textarea、Switch、Badge、Card、StackedCards、Separator、Dialog、StackedDrawer、Tabs、Slider、ScrollArea、PageNavigation、Pagination、Carousel |
 | 视觉动效 · 7 | ProgressRing、SpotlightCard、Reveal、AnimatedNumber、BreathingIndicator、AIOrb、ArtText |
-| 业务组件 · 5 | DataTable、FilterBar、Leaderboard、Heatmap、FlameGraph |
+| 业务组件 · 7 | DataTable、FilterBar、Leaderboard、Heatmap、FlameGraph、Timeline、MetricCard |
 
 Dialog 和 Tabs 使用 Radix Primitives 提供焦点管理与键盘交互。输入组件支持标签、错误提示、原生表单属性与 ref。动效尊重 `prefers-reduced-motion`；DataTable 提供客户端搜索、排序、分页与空状态，适合小型数据集。
 
+### 命令、指标与组合操作
+
+`CommandPalette` 是一个可受控的搜索面板。它把命令分组显示，支持关键词过滤、方向键、Home / End、Enter、Escape；执行逻辑通过 `onSelect` 交给应用，组件不绑定路由或数据层。传 `hotkey="k"` 可显式启用 ⌘ / Ctrl + K 打开或关闭，全局快捷键默认关闭，避免和应用自己的搜索快捷键冲突。
+
+```tsx
+import { CommandPalette } from '@ray-ui/react';
+
+<CommandPalette
+  open={open}
+  onOpenChange={setOpen}
+  onSelect={(item) => runCommand(item.id)}
+  groups={[{
+    heading: '快速开始',
+    items: [{ id: 'new', label: '创建新项目', keywords: ['新建'] }],
+  }]}
+/>
+```
+
+`MetricCard` 把主数值、变化趋势和上下文收进一个可组合的 `article`。`data` 只绘制装饰性迷你折线，非有限数据会被忽略；`loading` 提供不改变布局的骨架状态，`tone` 可用于区分指标语义。
+
+```tsx
+import { MetricCard } from '@ray-ui/react';
+
+<MetricCard
+  label="本周灵感"
+  value="1,280"
+  delta="+18.4%"
+  trend="up"
+  trendLabel="较上周"
+  data={[22, 30, 27, 42, 38, 52, 61]}
+/>
+```
+
+`SplitButton` 将一个最常用的主按钮和相关动作菜单组合在一起。菜单项可以单独禁用、带图标并绑定 `onSelect`；菜单打开后支持方向键、Home / End、Enter、Escape 和点击外部关闭。
+
+```tsx
+import { SplitButton } from '@ray-ui/react';
+
+<SplitButton
+  onClick={() => exportFile('png')}
+  actions={[
+    { id: 'png', label: '导出 PNG', onSelect: () => exportFile('png') },
+    { id: 'copy', label: '复制链接', onSelect: copyLink },
+  ]}
+>
+  导出作品
+</SplitButton>
+```
+
 全部组件及 Props / Column / Option 类型由主入口导出。打开工作台的组件详情可查看当前 API；完整声明随包发布。
+
+### 前后对比、文件投递与时间线
+
+`CompareSlider` 把两层内容放在同一块画布里，用拖动或键盘调整分界线；`orientation="vertical"` 可切换成上下对比。它会提供 slider 语义、Home / End、方向键和 PageUp / PageDown 操作，适合设计稿、数据可视化或照片修改前后的快速检查。
+
+```tsx
+import { CompareSlider } from '@ray-ui/react';
+
+<CompareSlider
+  before={<img src="/before.png" alt="原始稿" />}
+  after={<img src="/after.png" alt="完成稿" />}
+  beforeLabel="原始稿"
+  afterLabel="完成稿"
+  onValueChange={(value) => console.log(value)}
+/>
+```
+
+`FileDropzone` 负责拖放与文件选择，不会替应用上传文件。`accept` 支持扩展名、MIME 类型和 `image/*` 这类通配符；`maxFiles`、`maxSize` 会在选择时过滤文件，拒绝结果通过 `onReject` 返回原因和原始文件。受控模式使用 `value` / `onValueChange`，文件列表自带键盘可操作的移除按钮和状态播报。
+
+```tsx
+import { FileDropzone } from '@ray-ui/react';
+
+<FileDropzone
+  accept="image/*,.pdf"
+  maxFiles={3}
+  maxSize={5 * 1024 * 1024}
+  onValueChange={setFiles}
+  onReject={(rejections) => console.log(rejections)}
+/>
+```
+
+`Timeline` 用 `ol` / `li` 保留流程顺序，支持 `complete`、`current`、`pending` 和 `error` 四种状态。节点可以组合说明、时间、图标和操作入口；当前节点带 `aria-current="step"`，空数组会显示 `emptyMessage`。
+
+```tsx
+import { Timeline } from '@ray-ui/react';
+
+<Timeline items={[
+  { id: 'brief', title: '确认需求', status: 'complete', time: '09:20' },
+  { id: 'review', title: '等待评审', status: 'current', time: '现在' },
+  { id: 'ship', title: '发布版本', status: 'pending' },
+]} />
+```
 
 ### 分段选择器、进度环与空状态
 

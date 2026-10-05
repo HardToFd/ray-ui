@@ -1,0 +1,24 @@
+.ray-metric-card { position: relative; display: flex; min-width: 0; min-height: 154px; flex-direction: column; padding: 18px; color: var(--ray-text); background: var(--ray-surface); border: 1px solid var(--ray-border); border-radius: 13px; box-shadow: 0 4px 14px rgb(28 35 28 / 4%); overflow: hidden; }
+.ray-metric-card::after { position: absolute; top: -40px; right: -35px; width: 110px; height: 110px; border-radius: 50%; background: color-mix(in srgb, var(--ray-metric-accent) 9%, transparent); content: ""; pointer-events: none; }
+.ray-metric-card--default { --ray-metric-accent: var(--ray-accent); }
+.ray-metric-card--accent { --ray-metric-accent: #df5a31; background: color-mix(in srgb, #df5a31 6%, var(--ray-surface)); }
+.ray-metric-card--sage { --ray-metric-accent: #4e8d74; background: color-mix(in srgb, #4e8d74 7%, var(--ray-surface)); }
+.ray-metric-card--amber { --ray-metric-accent: #bf8125; background: color-mix(in srgb, #bf8125 7%, var(--ray-surface)); }
+.ray-metric-card__top, .ray-metric-card__middle { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.ray-metric-card__label { color: var(--ray-muted); font-size: 11px; font-weight: 550; letter-spacing: .02em; }
+.ray-metric-card__icon { display: grid; width: 28px; height: 28px; place-items: center; color: var(--ray-metric-accent); background: color-mix(in srgb, var(--ray-metric-accent) 12%, transparent); border-radius: 8px; }
+.ray-metric-card__middle { align-items: end; margin-top: 13px; }
+.ray-metric-card__value { min-width: 0; overflow: hidden; color: var(--ray-text); font-size: clamp(22px, 2.6vw, 29px); font-weight: 650; letter-spacing: -.8px; line-height: 1.05; text-overflow: ellipsis; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.ray-metric-card__chart { width: 92px; height: 42px; flex: 0 0 92px; color: var(--ray-metric-accent); overflow: visible; }
+.ray-metric-card__delta { position: relative; z-index: 1; display: flex; align-items: center; gap: 5px; margin-top: 11px; font-size: 10px; }
+.ray-metric-card__delta > span:first-child { font-size: 15px; font-weight: 650; }
+.ray-metric-card__delta strong { font-weight: 650; font-variant-numeric: tabular-nums; }
+.ray-metric-card__delta > span:last-child { color: var(--ray-muted); }
+.ray-metric-card__delta--up { color: #2e8059; }
+.ray-metric-card__delta--down { color: #b34d3c; }
+.ray-metric-card__delta--neutral { color: var(--ray-muted); }
+.ray-metric-card__footer { position: relative; z-index: 1; display: flex; align-items: center; gap: 8px; margin-top: auto; padding-top: 15px; color: var(--ray-muted); border-top: 1px solid color-mix(in srgb, var(--ray-border) 72%, transparent); font-size: 10px; }
+.ray-metric-card__skeleton { width: 62%; height: 31px; margin-top: 14px; border-radius: 6px; background: linear-gradient(100deg, var(--ray-surface-raised) 30%, color-mix(in srgb, var(--ray-surface-raised) 60%, var(--ray-surface)) 48%, var(--ray-surface-raised) 65%); background-size: 220% 100%; animation: ray-metric-shimmer 1.2s ease-in-out infinite; }
+@keyframes ray-metric-shimmer { to { background-position: -120% 0; } }
+@media (prefers-reduced-motion: reduce) { .ray-metric-card__skeleton { animation: none; } }
+

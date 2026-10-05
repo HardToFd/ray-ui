@@ -1,6 +1,12 @@
 "use client";
 
 export * from './components/primitives';
+export * from './components/compare-slider';
+export * from './components/file-dropzone';
+export * from './components/timeline';
+export * from './components/command-palette';
+export * from './components/metric-card';
+export * from './components/split-button';
 export * from './components/segmented-control';
 export * from './components/progress-ring';
 export * from './components/empty-state';

@@ -1,0 +1,39 @@
+.compare-demo, .dropzone-demo, .timeline-demo { width: 100%; min-width: 0; }
+.command-demo, .metric-demo, .split-demo { width: 100%; min-width: 0; }
+.command-demo.new-demo--expanded, .metric-demo.new-demo--expanded, .split-demo.new-demo--expanded { max-width: 640px; }
+.command-demo__trigger, .split-demo__row { display: flex; align-items: center; flex-wrap: wrap; gap: 13px; }
+.command-demo__trigger kbd { padding: 3px 5px; color: currentColor; border: 1px solid currentColor; border-radius: 4px; font: 9px/1 ui-monospace, monospace; opacity: .65; }
+.command-demo__trigger > span, .split-demo__row > span { color: var(--ray-muted); font-size: 11px; }
+.command-demo .ray-button { gap: 8px; }
+.metric-demo__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.metric-demo__grid .ray-metric-card:nth-child(1) { grid-column: span 2; }
+.metric-demo.new-demo--expanded .metric-demo__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.metric-demo.new-demo--expanded .metric-demo__grid .ray-metric-card:nth-child(1) { grid-column: auto; }
+.metric-demo__caption { margin-top: 15px; color: var(--ray-muted); font-size: 10px; line-height: 1.7; }
+.split-demo__row { min-height: 72px; }
+.split-demo__row .ray-split-button { flex-shrink: 0; }
+@media (max-width: 520px) { .metric-demo__grid, .metric-demo.new-demo--expanded .metric-demo__grid { grid-template-columns: 1fr; } .metric-demo__grid .ray-metric-card:nth-child(1), .metric-demo.new-demo--expanded .metric-demo__grid .ray-metric-card:nth-child(1) { grid-column: auto; } }
+.compare-demo:not(.new-demo--expanded) .ray-compare-slider { aspect-ratio: 1.9; border-radius: 9px; }
+.compare-demo:not(.new-demo--expanded) .ray-compare-slider__labels { inset: 10px 10px auto; }
+.compare-demo:not(.new-demo--expanded) .ray-compare-slider__labels span { font-size: 9px; padding: 4px 7px; }
+.compare-demo:not(.new-demo--expanded) .ray-compare-slider__handle { width: 30px; height: 30px; }
+.new-demo--expanded { max-width: 640px; }
+.new-demo-heading { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-bottom: 24px; }
+.new-demo-heading small { font-size: 9px; letter-spacing: 1.9px; color: var(--ray-muted); }
+.new-demo-heading h3 { margin: 9px 0 0; font-weight: 500; font-size: clamp(17px, 2.2vw, 23px); letter-spacing: -.5px; }
+.new-demo-index { display: grid; place-items: center; flex-shrink: 0; width: 42px; height: 42px; border: 1px solid var(--ray-border); border-radius: 50%; color: var(--ray-accent); font-size: 22px; }
+.compare-demo__footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; padding-top: 18px; }
+.compare-demo__footer > div:first-child { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; }
+.compare-demo__footer strong { font-family: monospace; font-size: 22px; font-weight: 400; font-variant-numeric: tabular-nums; }
+.compare-demo__footer strong small { font-size: 11px; color: var(--ray-muted); }
+.compare-demo__footer span { font-size: 11px; color: var(--ray-muted); }
+.dropzone-demo.new-demo--expanded { max-width: 480px; }
+.dropzone-demo__toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
+.new-demo-note { margin: 16px 0 0; font-size: 10px; line-height: 1.8; color: var(--ray-muted); }
+.timeline-demo.new-demo--expanded { max-width: 520px; padding: 26px; border: 1px solid var(--ray-border); border-radius: 14px; background: var(--ray-surface); box-shadow: 0 8px 25px #20282005; }
+.timeline-demo.new-demo--expanded .new-demo-heading { margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--ray-border); }
+.timeline-demo__edition { color: var(--ray-accent); font-size: 9px; letter-spacing: 1px; white-space: nowrap; }
+.timeline-demo__footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; border-top: 1px solid var(--ray-border); margin-top: 24px; padding-top: 18px; }
+.timeline-demo__checklist { max-width: 32em; margin: 8px 0 0; font-size: 11px; line-height: 1.8; color: var(--ray-muted); }
+.component-card--FileDropzone .component-stage:not(.component-stage--code), .component-card--CompareSlider .component-stage:not(.component-stage--code) { height: auto; min-height: 196px; }
+@media (max-width: 520px) { .timeline-demo.new-demo--expanded { padding: 16px; } .new-demo-heading { gap: 8px; } .new-demo-heading small { font-size: 8px; letter-spacing: 1px; } .timeline-demo__edition { display: none; } }

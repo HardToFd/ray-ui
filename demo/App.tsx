@@ -1,4 +1,10 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { CompareSliderDemo } from './CompareSliderDemo';
+import { FileDropzoneDemo } from './FileDropzoneDemo';
+import { TimelineDemo } from './TimelineDemo';
+import { CommandPaletteDemo } from './CommandPaletteDemo';
+import { MetricCardDemo } from './MetricCardDemo';
+import { SplitButtonDemo } from './SplitButtonDemo';
 import { DatePickerDemo } from './DatePickerDemo';
 import { ArtTextDemo, TypographyStudio } from './TypographyStudio';
 import { artTextFinishes } from './art-text-presets';
@@ -178,6 +184,18 @@ function ComponentPreview({
   };
 
   switch (name) {
+    case "CompareSlider":
+      return <CompareSliderDemo expanded={expanded} />;
+    case "FileDropzone":
+      return <FileDropzoneDemo expanded={expanded} />;
+    case "Timeline":
+      return <TimelineDemo expanded={expanded} />;
+    case "CommandPalette":
+      return <CommandPaletteDemo expanded={expanded} />;
+    case "MetricCard":
+      return <MetricCardDemo expanded={expanded} />;
+    case "SplitButton":
+      return <SplitButtonDemo expanded={expanded} />;
     case "SegmentedControl":
       return <SegmentedControlDemo expanded={expanded} />;
     case "ProgressRing":
