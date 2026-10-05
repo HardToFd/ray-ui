@@ -1,4 +1,7 @@
 @import './styles/primitives.css';
+@import './styles/compare-slider.css';
+@import './styles/file-dropzone.css';
+@import './styles/timeline.css';
 @import './styles/segmented-control.css';
 @import './styles/progress-ring.css';
 @import './styles/empty-state.css';

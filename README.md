@@ -25,13 +25,55 @@ npm run dev
 
 | 分类 | 组件 |
 | --- | --- |
-| 通用 UI · 22 | SegmentedControl、EmptyState、NotificationHotspot、Button、DownloadButton、HomeButton、Input、DatePicker、Textarea、Switch、Badge、Card、StackedCards、Separator、Dialog、StackedDrawer、Tabs、Slider、ScrollArea、PageNavigation、Pagination、Carousel |
+| 通用 UI · 24 | CompareSlider、FileDropzone、SegmentedControl、EmptyState、NotificationHotspot、Button、DownloadButton、HomeButton、Input、DatePicker、Textarea、Switch、Badge、Card、StackedCards、Separator、Dialog、StackedDrawer、Tabs、Slider、ScrollArea、PageNavigation、Pagination、Carousel |
 | 视觉动效 · 7 | ProgressRing、SpotlightCard、Reveal、AnimatedNumber、BreathingIndicator、AIOrb、ArtText |
-| 业务组件 · 5 | DataTable、FilterBar、Leaderboard、Heatmap、FlameGraph |
+| 业务组件 · 6 | DataTable、FilterBar、Leaderboard、Heatmap、FlameGraph、Timeline |
 
 Dialog 和 Tabs 使用 Radix Primitives 提供焦点管理与键盘交互。输入组件支持标签、错误提示、原生表单属性与 ref。动效尊重 `prefers-reduced-motion`；DataTable 提供客户端搜索、排序、分页与空状态，适合小型数据集。
 
 全部组件及 Props / Column / Option 类型由主入口导出。打开工作台的组件详情可查看当前 API；完整声明随包发布。
+
+### 前后对比、文件投递与时间线
+
+`CompareSlider` 把两层内容放在同一块画布里，用拖动或键盘调整分界线；`orientation="vertical"` 可切换成上下对比。它会提供 slider 语义、Home / End、方向键和 PageUp / PageDown 操作，适合设计稿、数据可视化或照片修改前后的快速检查。
+
+```tsx
+import { CompareSlider } from '@ray-ui/react';
+
+<CompareSlider
+  before={<img src="/before.png" alt="原始稿" />}
+  after={<img src="/after.png" alt="完成稿" />}
+  beforeLabel="原始稿"
+  afterLabel="完成稿"
+  onValueChange={(value) => console.log(value)}
+/>
+```
+
+`FileDropzone` 负责拖放与文件选择，不会替应用上传文件。`accept` 支持扩展名、MIME 类型和 `image/*` 这类通配符；`maxFiles`、`maxSize` 会在选择时过滤文件，拒绝结果通过 `onReject` 返回原因和原始文件。受控模式使用 `value` / `onValueChange`，文件列表自带键盘可操作的移除按钮和状态播报。
+
+```tsx
+import { FileDropzone } from '@ray-ui/react';
+
+<FileDropzone
+  accept="image/*,.pdf"
+  maxFiles={3}
+  maxSize={5 * 1024 * 1024}
+  onValueChange={setFiles}
+  onReject={(rejections) => console.log(rejections)}
+/>
+```
+
+`Timeline` 用 `ol` / `li` 保留流程顺序，支持 `complete`、`current`、`pending` 和 `error` 四种状态。节点可以组合说明、时间、图标和操作入口；当前节点带 `aria-current="step"`，空数组会显示 `emptyMessage`。
+
+```tsx
+import { Timeline } from '@ray-ui/react';
+
+<Timeline items={[
+  { id: 'brief', title: '确认需求', status: 'complete', time: '09:20' },
+  { id: 'review', title: '等待评审', status: 'current', time: '现在' },
+  { id: 'ship', title: '发布版本', status: 'pending' },
+]} />
+```
 
 ### 分段选择器、进度环与空状态
 

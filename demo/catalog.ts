@@ -17,6 +17,53 @@ export const categories = [
 
 export const catalog: ComponentDoc[] = [
   {
+    name: "CompareSlider",
+    chinese: "前后对比",
+    category: "ui",
+    description: "拖动一条分界线，在同一块画布里看见前后变化。",
+    code: `import { CompareSlider } from '@ray-ui/react';\n\n<CompareSlider\n  before={<img src="/before.png" alt="原始稿" />}\n  after={<img src="/after.png" alt="完成稿" />}\n  beforeLabel="原始稿"\n  afterLabel="完成稿"\n  onValueChange={(value) => console.log(value)}\n/>`,
+    props: [
+      ["before / after", "ReactNode，两层内容会保持相同尺寸；图片建议使用 object-fit: cover", "必填"],
+      ["value / defaultValue", "0–100 的受控 / 初始分界位置；非有限值按 50，越界会截断", "— / 50"],
+      ["onValueChange", "(value: number) => void；拖动或键盘调整时调用", "—"],
+      ["orientation", "horizontal 左右分界 | vertical 上下分界", "horizontal"],
+      ["beforeLabel / afterLabel / label", "画布标签 / 滑块可访问名称；标签对读屏隐藏", "之前 / 之后 / 前后对比"],
+      ["键盘与触控", "方向键每次 1，PageUp / PageDown 每次 10，Home / End 跳到边界；支持指针拖动", "—"],
+      ["disabled / className / style / ref", "禁用交互 / 原生 div 属性；--ray-compare-position 可由组件内部维护，ref 指向容器", "false / —"],
+    ],
+  },
+  {
+    name: "FileDropzone",
+    chinese: "文件投递区",
+    category: "ui",
+    description: "把文件拖进来，格式、大小和数量都在选择时即时校验。",
+    code: `import { FileDropzone } from '@ray-ui/react';\n\n<FileDropzone\n  accept="image/*,.pdf"\n  maxFiles={3}\n  maxSize={5 * 1024 * 1024}\n  onValueChange={(files) => setFiles(files)}\n  onReject={(rejections) => console.log(rejections)}\n/>`,
+    props: [
+      ["value / defaultValue", "受控 / 初始 File[]；不传 value 时组件管理选择结果", "— / []"],
+      ["onValueChange / onReject", "文件数组变化回调 / 被拒文件及 file-type、file-size、file-count、duplicate 原因", "—"],
+      ["accept", "逗号分隔的扩展名、MIME 类型或通配 MIME，如 image/*,.pdf", "—"],
+      ["multiple / maxFiles / maxSize", "允许多选 / 文件数量上限 / 单文件字节上限；超限文件不会进入 value", "true / 5 / 10 MB"],
+      ["title / description / browseLabel", "投递区标题、说明和选择按钮文案", "把文件放在这里 / 自动说明 / 选择文件"],
+      ["size / disabled", "sm | md / 禁用拖放、选择和移除", "md / false"],
+      ["可访问性", "文件输入、状态播报、错误列表、焦点样式和键盘按钮；示例不会自动上传文件", "—"],
+    ],
+  },
+  {
+    name: "Timeline",
+    chinese: "时间线",
+    category: "business",
+    description: "把项目进度、审核节点和发布步骤排成一条清晰的线。",
+    code: `import { Timeline } from '@ray-ui/react';\n\n<Timeline items={[\n  { id: 'brief', title: '确认需求', time: '09:20', status: 'complete' },\n  { id: 'review', title: '等待评审', time: '现在', status: 'current', action: <button>查看详情</button> },\n  { id: 'ship', title: '发布版本', status: 'pending' },\n]} />`,
+    props: [
+      ["items", "TimelineItem[]；id 需要唯一，按数组顺序呈现；每项可带 title、description、time、dateTime、icon、action", "必填"],
+      ["status", "complete 已完成 | current 进行中 | pending 待开始 | error 需要处理", "complete"],
+      ["size / emptyMessage", "sm | md / items 为空时的说明", "md / 暂无动态"],
+      ["statusLabels", "覆盖四种状态的可见文案，适合国际化或业务术语", "内置中文"],
+      ["语义", "ol + li 保留顺序，current 节点带 aria-current=step，时间使用 time 元素", "—"],
+      ["className / style / ref", "原生 ol 属性，ref 指向 HTMLOListElement", "—"],
+    ],
+  },
+  {
     name: "SegmentedControl",
     chinese: "分段选择器",
     category: "ui",
