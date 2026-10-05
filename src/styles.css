@@ -2,6 +2,9 @@
 @import './styles/compare-slider.css';
 @import './styles/file-dropzone.css';
 @import './styles/timeline.css';
+@import './styles/command-palette.css';
+@import './styles/metric-card.css';
+@import './styles/split-button.css';
 @import './styles/segmented-control.css';
 @import './styles/progress-ring.css';
 @import './styles/empty-state.css';

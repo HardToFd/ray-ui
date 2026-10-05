@@ -1,6 +1,6 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { expect, test, vi } from 'vitest';
-import { CompareSlider, FileDropzone, Timeline } from '../src';
+import { CommandPalette, CompareSlider, FileDropzone, MetricCard, SplitButton, Timeline } from '../src';
 
 test.afterEach(() => cleanup());
 
@@ -52,4 +52,41 @@ test('Timeline renders statuses, current step and empty message', () => {
   cleanup();
   render(<Timeline items={[]} emptyMessage="还没有事件" />);
   expect(screen.getByText('还没有事件')).toBeTruthy();
+});
+
+test('CommandPalette filters commands and selects with the keyboard', () => {
+  const select = vi.fn();
+  render(<CommandPalette open onSelect={select} groups={[{ heading: '操作', items: [
+    { id: 'new', label: '新建项目', description: '从空白开始', keywords: ['create'] },
+    { id: 'archive', label: '归档项目', disabled: true },
+  ] }]} />);
+  const search = screen.getByRole('searchbox');
+  fireEvent.change(search, { target: { value: '新建' } });
+  expect(screen.getByRole('option', { name: /新建项目/ })).toBeTruthy();
+  fireEvent.keyDown(search, { key: 'Enter' });
+  expect(select).toHaveBeenCalledWith(expect.objectContaining({ id: 'new' }));
+});
+
+test('CommandPalette opens from the default keyboard shortcut', () => {
+  const onOpenChange = vi.fn();
+  render(<CommandPalette hotkey="k" onOpenChange={onOpenChange} groups={[{ items: [{ id: 'one', label: '一个命令' }] }]} />);
+  fireEvent.keyDown(document, { key: 'k', ctrlKey: true });
+  expect(onOpenChange).toHaveBeenCalledWith(true);
+});
+
+test('MetricCard keeps its trend semantics and ignores invalid chart values', () => {
+  render(<MetricCard label="活跃项目" value="24" delta="+4" trend="up" trendLabel="本月" data={[1, Number.NaN, 3]} />);
+  expect(screen.getByRole('article').textContent).toContain('活跃项目');
+  expect(screen.getByRole('article').textContent).toContain('+4');
+  expect(document.querySelector('.ray-metric-card__chart polyline')).toBeTruthy();
+});
+
+test('SplitButton opens an action menu and selects an action', () => {
+  const action = vi.fn();
+  render(<SplitButton actions={[{ id: 'copy', label: '复制链接', onSelect: action }]}>导出作品</SplitButton>);
+  fireEvent.click(screen.getByRole('button', { name: '打开更多操作' }));
+  expect(screen.getByRole('menu')).toBeTruthy();
+  fireEvent.click(screen.getByRole('menuitem', { name: '复制链接' }));
+  expect(action).toHaveBeenCalledTimes(1);
+  expect(screen.queryByRole('menu')).toBeNull();
 });

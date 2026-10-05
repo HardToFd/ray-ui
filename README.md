@@ -25,11 +25,60 @@ npm run dev
 
 | 分类 | 组件 |
 | --- | --- |
-| 通用 UI · 24 | CompareSlider、FileDropzone、SegmentedControl、EmptyState、NotificationHotspot、Button、DownloadButton、HomeButton、Input、DatePicker、Textarea、Switch、Badge、Card、StackedCards、Separator、Dialog、StackedDrawer、Tabs、Slider、ScrollArea、PageNavigation、Pagination、Carousel |
+| 通用 UI · 26 | CompareSlider、FileDropzone、CommandPalette、SplitButton、SegmentedControl、EmptyState、NotificationHotspot、Button、DownloadButton、HomeButton、Input、DatePicker、Textarea、Switch、Badge、Card、StackedCards、Separator、Dialog、StackedDrawer、Tabs、Slider、ScrollArea、PageNavigation、Pagination、Carousel |
 | 视觉动效 · 7 | ProgressRing、SpotlightCard、Reveal、AnimatedNumber、BreathingIndicator、AIOrb、ArtText |
-| 业务组件 · 6 | DataTable、FilterBar、Leaderboard、Heatmap、FlameGraph、Timeline |
+| 业务组件 · 7 | DataTable、FilterBar、Leaderboard、Heatmap、FlameGraph、Timeline、MetricCard |
 
 Dialog 和 Tabs 使用 Radix Primitives 提供焦点管理与键盘交互。输入组件支持标签、错误提示、原生表单属性与 ref。动效尊重 `prefers-reduced-motion`；DataTable 提供客户端搜索、排序、分页与空状态，适合小型数据集。
+
+### 命令、指标与组合操作
+
+`CommandPalette` 是一个可受控的搜索面板。它把命令分组显示，支持关键词过滤、方向键、Home / End、Enter、Escape；执行逻辑通过 `onSelect` 交给应用，组件不绑定路由或数据层。传 `hotkey="k"` 可显式启用 ⌘ / Ctrl + K 打开或关闭，全局快捷键默认关闭，避免和应用自己的搜索快捷键冲突。
+
+```tsx
+import { CommandPalette } from '@ray-ui/react';
+
+<CommandPalette
+  open={open}
+  onOpenChange={setOpen}
+  onSelect={(item) => runCommand(item.id)}
+  groups={[{
+    heading: '快速开始',
+    items: [{ id: 'new', label: '创建新项目', keywords: ['新建'] }],
+  }]}
+/>
+```
+
+`MetricCard` 把主数值、变化趋势和上下文收进一个可组合的 `article`。`data` 只绘制装饰性迷你折线，非有限数据会被忽略；`loading` 提供不改变布局的骨架状态，`tone` 可用于区分指标语义。
+
+```tsx
+import { MetricCard } from '@ray-ui/react';
+
+<MetricCard
+  label="本周灵感"
+  value="1,280"
+  delta="+18.4%"
+  trend="up"
+  trendLabel="较上周"
+  data={[22, 30, 27, 42, 38, 52, 61]}
+/>
+```
+
+`SplitButton` 将一个最常用的主按钮和相关动作菜单组合在一起。菜单项可以单独禁用、带图标并绑定 `onSelect`；菜单打开后支持方向键、Home / End、Enter、Escape 和点击外部关闭。
+
+```tsx
+import { SplitButton } from '@ray-ui/react';
+
+<SplitButton
+  onClick={() => exportFile('png')}
+  actions={[
+    { id: 'png', label: '导出 PNG', onSelect: () => exportFile('png') },
+    { id: 'copy', label: '复制链接', onSelect: copyLink },
+  ]}
+>
+  导出作品
+</SplitButton>
+```
 
 全部组件及 Props / Column / Option 类型由主入口导出。打开工作台的组件详情可查看当前 API；完整声明随包发布。
 

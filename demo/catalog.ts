@@ -551,4 +551,79 @@ export const catalog: ComponentDoc[] = [
     code: `import { Separator } from '@ray-ui/react';\n\n<div>账户设置</div>\n<Separator style={{ margin: '16px 0' }} />\n<div>通知偏好</div>`,
     props: [["className / style / ref", "原生 div 属性", "—"]],
   },
+  {
+    name: "CommandPalette",
+    chinese: "命令面板",
+    category: "ui",
+    description: "把常用动作集中到一个可搜索、可键盘导航的小空间。",
+    code: `import { CommandPalette } from '@ray-ui/react';
+
+<CommandPalette
+  open={open}
+  onOpenChange={setOpen}
+  onSelect={(item) => runCommand(item.id)}
+  groups={[{
+    heading: '快速开始',
+    items: [{ id: 'new', label: '创建新项目', shortcut: ['⌘', 'N'] }],
+  }]}
+/>`,
+    props: [
+      ["groups", "CommandGroup[]；每组包含 heading? 与唯一 id 的 items", "必填"],
+      ["open / defaultOpen / onOpenChange", "受控 / 初始打开状态 / 打开状态回调", "false / —"],
+      ["value / defaultValue / onValueChange", "搜索词的受控 / 初始值与变化回调", "— / 空字符串"],
+      ["onSelect / closeOnSelect", "选中项回调 / 执行后是否关闭面板", "— / true"],
+      ["hotkey", "⌘ / Ctrl 加此按键时打开或关闭；传字符串启用，false 不注册全局快捷键", "false"],
+      ["placeholder / emptyMessage / title / description", "搜索提示、无结果状态和对话框语义文案", "内置中文"],
+      ["键盘与语义", "searchbox + listbox；方向键、Home / End、Enter、Escape；⌘ / Ctrl + K 关闭", "—"],
+    ],
+  },
+  {
+    name: "MetricCard",
+    chinese: "指标卡",
+    category: "business",
+    description: "用一个数字、一条趋势和一小段上下文，讲清当前状态。",
+    code: `import { MetricCard } from '@ray-ui/react';
+
+<MetricCard
+  label="本周灵感"
+  value="1,280"
+  delta="+18.4%"
+  trend="up"
+  trendLabel="较上周"
+  data={[22, 30, 27, 42, 38, 52, 61]}
+/>`,
+    props: [
+      ["label / value", "指标名称 / 主数值；value 支持 ReactNode", "必填"],
+      ["delta / trend / trendLabel", "变化值、up | down | neutral 趋势和辅助说明", "— / neutral / —"],
+      ["data", "readonly number[]；有限值会绘制为装饰性迷你折线，少于 2 个点时隐藏", "—"],
+      ["icon / footer", "右上角图标 / 底部辅助内容", "—"],
+      ["tone / loading", "default | accent | sage | amber / 骨架加载状态", "default / false"],
+      ["className / style / ref", "原生 article 属性与 HTMLArticleElement ref", "—"],
+    ],
+  },
+  {
+    name: "SplitButton",
+    chinese: "分裂按钮",
+    category: "ui",
+    description: "保留一个最常用的主操作，也把相关动作收进同一处菜单。",
+    code: `import { SplitButton } from '@ray-ui/react';
+
+<SplitButton
+  onClick={() => exportFile('png')}
+  actions={[
+    { id: 'png', label: '导出 PNG', onSelect: () => exportFile('png') },
+    { id: 'copy', label: '复制链接', onSelect: copyLink },
+  ]}
+>
+  导出作品
+</SplitButton>`,
+    props: [
+      ["children / onClick", "主按钮内容 / 主操作回调", "必填 / —"],
+      ["actions", "SplitButtonAction[]；id 唯一，可带 icon、disabled、onSelect", "必填"],
+      ["onAction", "菜单项选中后的统一回调，接收 action", "—"],
+      ["open / defaultOpen / onOpenChange", "菜单的受控 / 初始打开状态与变化回调", "false / —"],
+      ["variant / size", "primary | secondary | outline / sm | md | lg", "primary / md"],
+      ["键盘与语义", "主按钮 + aria-haspopup=menu；菜单支持方向键、Home / End、Enter、Escape 和点击外部关闭", "—"],
+    ],
+  },
 ];

@@ -1,0 +1,25 @@
+.ray-split-button { position: relative; display: inline-flex; vertical-align: middle; }
+.ray-split-button__main, .ray-split-button__toggle { box-sizing: border-box; min-height: 38px; color: var(--ray-accent-contrast); border: 1px solid var(--ray-accent); font: inherit; font-size: 13px; font-weight: 550; cursor: pointer; transition: background-color 150ms ease, border-color 150ms ease; }
+.ray-split-button__main { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 9px 15px; border-radius: var(--ray-radius, 8px) 0 0 var(--ray-radius, 8px); }
+.ray-split-button__toggle { display: grid; width: 34px; place-items: center; padding: 0; border-left-color: color-mix(in srgb, var(--ray-accent-contrast) 34%, var(--ray-accent)); border-radius: 0 var(--ray-radius, 8px) var(--ray-radius, 8px) 0; font-size: 16px; line-height: 1; }
+.ray-split-button__main--primary, .ray-split-button__toggle--primary { background: var(--ray-accent); }
+.ray-split-button__main--secondary, .ray-split-button__toggle--secondary { color: var(--ray-text); background: var(--ray-surface-raised); border-color: var(--ray-border); }
+.ray-split-button__toggle--secondary { border-left-color: var(--ray-border); }
+.ray-split-button__main--outline, .ray-split-button__toggle--outline { color: var(--ray-text); background: transparent; border-color: var(--ray-border); }
+.ray-split-button__toggle--outline { border-left-color: var(--ray-border); }
+.ray-split-button__main:hover:not(:disabled), .ray-split-button__toggle:hover:not(:disabled) { background: color-mix(in srgb, var(--ray-text) 9%, var(--ray-accent)); }
+.ray-split-button__main--secondary:hover:not(:disabled), .ray-split-button__toggle--secondary:hover:not(:disabled), .ray-split-button__main--outline:hover:not(:disabled), .ray-split-button__toggle--outline:hover:not(:disabled) { background: color-mix(in srgb, var(--ray-text) 7%, var(--ray-surface)); }
+.ray-split-button__main:focus-visible, .ray-split-button__toggle:focus-visible, .ray-split-button__item:focus-visible { position: relative; z-index: 1; outline: 2px solid var(--ray-ring); outline-offset: 2px; }
+.ray-split-button__main:disabled, .ray-split-button__toggle:disabled { cursor: not-allowed; opacity: .5; }
+.ray-split-button--sm .ray-split-button__main, .ray-split-button--sm .ray-split-button__toggle { min-height: 30px; font-size: 12px; }
+.ray-split-button--sm .ray-split-button__main { padding: 6px 11px; }
+.ray-split-button--sm .ray-split-button__toggle { width: 28px; }
+.ray-split-button--lg .ray-split-button__main, .ray-split-button--lg .ray-split-button__toggle { min-height: 44px; font-size: 14px; }
+.ray-split-button--lg .ray-split-button__main { padding: 12px 20px; }
+.ray-split-button__menu { position: absolute; top: calc(100% + 7px); right: 0; z-index: 10; display: grid; min-width: 185px; padding: 5px; color: var(--ray-text); background: var(--ray-surface); border: 1px solid var(--ray-border); border-radius: 9px; box-shadow: 0 12px 30px rgb(0 0 0 / 14%), 0 2px 7px rgb(0 0 0 / 6%); animation: ray-split-menu-in 130ms ease; }
+.ray-split-button__item { display: flex; align-items: center; gap: 9px; min-height: 34px; padding: 7px 9px; color: inherit; background: transparent; border: 0; border-radius: 6px; font: inherit; font-size: 12px; text-align: left; cursor: pointer; }
+.ray-split-button__item:hover, .ray-split-button__item--active { background: color-mix(in srgb, var(--ray-accent) 10%, var(--ray-surface)); }
+.ray-split-button__item:disabled { cursor: not-allowed; opacity: .4; }
+@keyframes ray-split-menu-in { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .ray-split-button__main, .ray-split-button__toggle, .ray-split-button__menu { transition: none; animation: none; } }
+
